@@ -3,7 +3,7 @@ export {default as LeftBoardTemplate} from './eddii_ninja_main_menu_base_left_si
 export {default as RightBoardTemplate} from './eddii_ninja_main_menu_base_right_side.svg';
 export {default as RedXTemplate} from './eddii_ninja_main_menu_x_red.svg';
 export {default as XTemplate} from './eddii_ninja_main_menu_x.svg';
-export {default as UncutAppleSvg} from './game_ninja_item_apple.svg';
+export {default as UncutAppleSvg} from './apple.svg';
 
 export {default as PopoverBoardSvg} from './PopUp_GameOver_base.svg';
 export {default as PopoverEdiiSvg} from './PopUp_GameOver_eddii.svg';

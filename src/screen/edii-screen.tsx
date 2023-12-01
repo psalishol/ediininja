@@ -1,4 +1,4 @@
-import {SafeAreaView, View} from 'react-native';
+import {SafeAreaView, Text, View} from 'react-native';
 import {GameBackground} from '../component/organism';
 import {
   LeftBoardTemplate,
@@ -7,6 +7,7 @@ import {
 } from '../assets/svg';
 import {screenHeight, screenWidth} from '../consts';
 import {CurrentScore, HighScore} from '../component/atom';
+import {size} from '../helper';
 
 const EdiiScreen: React.FunctionComponent = () => {
   return (
@@ -41,6 +42,26 @@ const ScoreBoard: React.FunctionComponent = () => {
       <ScoreBoardTemplate height={BOARD_HEIGHT} width={BOARD_WIDTH} />
       <HighScore />
       <CurrentScore />
+
+      <Text
+        style={{
+          color: 'white',
+          marginLeft: screenWidth * 0.05,
+          position: 'absolute',
+          fontSize: size(18),
+        }}>
+        high score
+      </Text>
+
+      <Text
+        style={{
+          color: 'white',
+          marginLeft: screenWidth * 0.27,
+          position: 'absolute',
+          fontSize: size(18),
+        }}>
+        score
+      </Text>
     </View>
   );
 };

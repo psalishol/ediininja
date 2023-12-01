@@ -1,5 +1,5 @@
 import {Pressable, SafeAreaView, Text, View} from 'react-native';
-import {GameBackground} from '../component/organism';
+import {GameBackground, ScoreBoard} from '../component/organism';
 import {
   CloseSvg,
   HeartSvg,
@@ -40,39 +40,7 @@ const GameHeader: React.FunctionComponent = () => {
   );
 };
 
-const ScoreBoard: React.FunctionComponent = () => {
-  const BOARD_HEIGHT = screenHeight * 0.18;
-  const BOARD_WIDTH = screenWidth * 0.5;
-  return (
-    <View>
-      <ScoreBoardTemplate height={BOARD_HEIGHT} width={BOARD_WIDTH} />
-      <HighScore />
-      <CurrentScore />
 
-      <Text
-        style={{
-          color: 'white',
-          marginLeft: screenWidth * 0.05,
-          position: 'absolute',
-          fontSize: size(18),
-        }}>
-        high score
-      </Text>
-
-      <Text
-        style={{
-          color: 'white',
-          marginLeft: screenWidth * 0.27,
-          position: 'absolute',
-          fontSize: size(18),
-        }}>
-        score
-      </Text>
-      <SlashedFruit />
-      <PlayerLifeDisplay />
-    </View>
-  );
-};
 
 const LifeBoard: React.FunctionComponent = () => {
   const BOARD_HEIGHT = screenHeight * 0.15;

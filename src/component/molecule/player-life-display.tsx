@@ -6,7 +6,7 @@ import {size} from '../../helper';
 import {PlayerLife} from '../../types';
 
 const PlayerLifeDisplay: React.FunctionComponent = () => {
-  const [lifeLeft] = useState<PlayerLife>('3');
+  const [lifeLeft] = useState<PlayerLife>('1');
 
   const LIFE_DIMENSION = size(30);
 
@@ -18,7 +18,6 @@ const PlayerLifeDisplay: React.FunctionComponent = () => {
             flexDirection: 'row',
             alignItems: 'center',
             position: 'absolute',
-            backgroundColor: 'red',
             justifyContent: 'space-around',
             width: screenWidth * 0.11,
             height: screenHeight * 0.17,
@@ -35,7 +34,6 @@ const PlayerLifeDisplay: React.FunctionComponent = () => {
           flexDirection: 'row',
           alignItems: 'center',
           position: 'absolute',
-          backgroundColor: 'red',
           justifyContent: 'space-around',
           width: screenWidth * 0.11,
           height: screenHeight * 0.17,
@@ -52,7 +50,6 @@ const PlayerLifeDisplay: React.FunctionComponent = () => {
             flexDirection: 'row',
             alignItems: 'center',
             position: 'absolute',
-            backgroundColor: 'red',
             justifyContent: 'space-around',
             width: screenWidth * 0.11,
             height: screenHeight * 0.17,

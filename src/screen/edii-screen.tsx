@@ -1,5 +1,5 @@
 import {Pressable, SafeAreaView, Text, View} from 'react-native';
-import {GameBackground, ScoreBoard} from '../component/organism';
+import {GameBackground, LifeBoard, ScoreBoard} from '../component/organism';
 import {
   CloseSvg,
   HeartSvg,
@@ -17,63 +17,22 @@ import {useCallback} from 'react';
 const EdiiScreen: React.FunctionComponent = () => {
   return (
     <GameBackground>
-      <GameHeader />
+      <SafeAreaView
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginTop: screenHeight * 0.05,
+        }}>
+        <LifeBoard />
+        <ScoreBoard />
+        <MenuBoard />
+      </SafeAreaView>
       {/* <GameOverLayout /> */}
     </GameBackground>
   );
 };
 
 export default EdiiScreen;
-
-const GameHeader: React.FunctionComponent = () => {
-  return (
-    <SafeAreaView
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginTop: screenHeight * 0.05,
-      }}>
-      <LifeBoard />
-      <ScoreBoard />
-      <MenuBoard />
-    </SafeAreaView>
-  );
-};
-
-
-
-const LifeBoard: React.FunctionComponent = () => {
-  const BOARD_HEIGHT = screenHeight * 0.15;
-  const BOARD_WIDTH = screenWidth * 0.1;
-  return (
-    <View>
-      <LeftBoardTemplate height={BOARD_HEIGHT} width={BOARD_WIDTH} />
-      <View
-        style={{
-          //   backgroundColor: 'red',
-          marginTop: -screenHeight * 0.03,
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <HeartSvg height={size(45)} width={size(45)} />
-        <Text
-          style={{
-            color: 'white',
-            position: 'absolute',
-            fontSize: size(20),
-            fontWeight: '800',
-          }}>
-          10
-        </Text>
-      </View>
-    </View>
-  );
-};
 
 const MenuBoard: React.FunctionComponent = () => {
   const BOARD_HEIGHT = screenHeight * 0.15;

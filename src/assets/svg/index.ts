@@ -10,6 +10,9 @@ export {default as PopoverEdiiSvg} from './PopUp_GameOver_eddii.svg';
 export {default as PopoverScratchesSvg} from './PopUp_GameOver_scratches.svg';
 export {default as PopoverNinja} from './PopUp_GameOver_ninja_stars.svg';
 
+export {default as CloseSvg} from './icon_close.svg';
+export {default as HeartSvg} from './newHeart.svg';
+
 // Food Item Svgs
 
 // Apple
@@ -21,7 +24,7 @@ export {default as BananaCutSvg} from './banana_cut.svg';
 export {default as BananaSvg} from './banana.svg';
 
 // Broccoli
-export {default as BroccoliCutSvg} from './brocolli_Cut.svg';
+export {default as BroccoliCutSvg} from './brocolli_cut.svg';
 export {default as BroccoliSvg} from './broccoli.svg';
 
 // Pizza
@@ -29,7 +32,7 @@ export {default as PizzaCutSvg} from './pizza_cut.svg';
 export {default as PizzaSvg} from './pizza.svg';
 
 // Carrot
-export {default as CarrotCutSvg} from './carrot_Cut.svg';
+export {default as CarrotCutSvg} from './carrot_cut.svg';
 export {default as CarrotSvg} from './carrot.svg';
 
 // Grapes
@@ -105,7 +108,7 @@ export {default as PlumCutSvg} from './plum_cut.svg';
 export {default as PlumSvg} from './plum.svg';
 
 // Avocado
-export {default as AvocadoCutSvg} from './avocado_Cut.svg';
+export {default as AvocadoCutSvg} from './avocado_cut.svg';
 export {default as AvocadoSvg} from './avocado.svg';
 
 // Cucumber

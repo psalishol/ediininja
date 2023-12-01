@@ -4,6 +4,7 @@ import {
   LeftBoardTemplate,
   RightBoardTemplate,
   ScoreBoardTemplate,
+  UncutAppleSvg,
 } from '../assets/svg';
 import {screenHeight, screenWidth} from '../consts';
 import {CurrentScore, HighScore} from '../component/atom';
@@ -62,6 +63,22 @@ const ScoreBoard: React.FunctionComponent = () => {
         }}>
         score
       </Text>
+
+      <View
+        style={{
+          position: 'absolute',
+          marginLeft: screenWidth * 0.153,
+          marginTop: screenHeight * 0.017,
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: 50,
+          width: 50,
+        }}>
+        <UncutAppleSvg
+          height={screenHeight * 0.17}
+          width={screenHeight * 0.17}
+        />
+      </View>
     </View>
   );
 };

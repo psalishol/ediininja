@@ -2,15 +2,19 @@ import {Image, SafeAreaView, Text, View} from 'react-native';
 import {GameBackground} from '../component/organism';
 import {
   LeftBoardTemplate,
+  RedXTemplate,
   RightBoardTemplate,
   ScoreBoardTemplate,
   UncutAppleSvg,
+  XTemplate,
 } from '../assets/svg';
 import {screenHeight, screenWidth} from '../consts';
 import {CurrentScore, HighScore} from '../component/atom';
 import {size} from '../helper';
 import {slashImg} from '../assets/img';
 import {SlashedFruit} from '../component/molecule';
+import {PlayerLife} from '../types';
+import {useState} from 'react';
 
 const EdiiScreen: React.FunctionComponent = () => {
   return (
@@ -66,6 +70,86 @@ const ScoreBoard: React.FunctionComponent = () => {
         score
       </Text>
       <SlashedFruit />
+      <PlayerLifeDisplay />
+    </View>
+  );
+};
+
+const PlayerLifeDisplay: React.FunctionComponent = () => {
+  const [lifeLeft] = useState<PlayerLife>('3');
+
+  const LIFE_DIMENSION = size(30);
+
+  switch (lifeLeft) {
+    case '1':
+      return (
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            position: 'absolute',
+            backgroundColor: 'red',
+            justifyContent: 'space-around',
+            width: screenWidth * 0.11,
+            height: screenHeight * 0.17,
+            right: screenWidth * 0.04,
+          }}>
+          <RedXTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
+          <RedXTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
+          <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
+        </View>
+      );
+    case '2':
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          position: 'absolute',
+          backgroundColor: 'red',
+          justifyContent: 'space-around',
+          width: screenWidth * 0.11,
+          height: screenHeight * 0.17,
+          right: screenWidth * 0.04,
+        }}>
+        <RedXTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
+        <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
+        <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
+      </View>;
+    default:
+      return (
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            position: 'absolute',
+            backgroundColor: 'red',
+            justifyContent: 'space-around',
+            width: screenWidth * 0.11,
+            height: screenHeight * 0.17,
+            right: screenWidth * 0.04,
+          }}>
+          <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
+          <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
+          <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
+        </View>
+      );
+  }
+
+  return (
+    <View
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        position: 'absolute',
+        backgroundColor: 'red',
+        justifyContent: 'space-around',
+        width: screenWidth * 0.11,
+        height: screenHeight * 0.17,
+        right: screenWidth * 0.04,
+      }}>
+      <RedXTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
+      <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
+      <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
     </View>
   );
 };

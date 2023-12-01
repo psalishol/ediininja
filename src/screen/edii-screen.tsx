@@ -1,25 +1,24 @@
-import {Image, SafeAreaView, Text, View} from 'react-native';
+import {Pressable, SafeAreaView, Text, View} from 'react-native';
 import {GameBackground} from '../component/organism';
 import {
+  CloseSvg,
+  HeartSvg,
   LeftBoardTemplate,
-  RedXTemplate,
   RightBoardTemplate,
   ScoreBoardTemplate,
-  UncutAppleSvg,
-  XTemplate,
 } from '../assets/svg';
 import {screenHeight, screenWidth} from '../consts';
 import {CurrentScore, HighScore} from '../component/atom';
 import {size} from '../helper';
-import {slashImg} from '../assets/img';
-import {SlashedFruit} from '../component/molecule';
-import {PlayerLife} from '../types';
-import {useState} from 'react';
+import {PlayerLifeDisplay, SlashedFruit} from '../component/molecule';
+import {GameOverLayout} from '../layout';
+import {useCallback} from 'react';
 
 const EdiiScreen: React.FunctionComponent = () => {
   return (
     <GameBackground>
       <GameHeader />
+      {/* <GameOverLayout /> */}
     </GameBackground>
   );
 };
@@ -75,91 +74,35 @@ const ScoreBoard: React.FunctionComponent = () => {
   );
 };
 
-const PlayerLifeDisplay: React.FunctionComponent = () => {
-  const [lifeLeft] = useState<PlayerLife>('3');
-
-  const LIFE_DIMENSION = size(30);
-
-  switch (lifeLeft) {
-    case '1':
-      return (
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            position: 'absolute',
-            backgroundColor: 'red',
-            justifyContent: 'space-around',
-            width: screenWidth * 0.11,
-            height: screenHeight * 0.17,
-            right: screenWidth * 0.04,
-          }}>
-          <RedXTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
-          <RedXTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
-          <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
-        </View>
-      );
-    case '2':
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          position: 'absolute',
-          backgroundColor: 'red',
-          justifyContent: 'space-around',
-          width: screenWidth * 0.11,
-          height: screenHeight * 0.17,
-          right: screenWidth * 0.04,
-        }}>
-        <RedXTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
-        <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
-        <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
-      </View>;
-    default:
-      return (
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            position: 'absolute',
-            backgroundColor: 'red',
-            justifyContent: 'space-around',
-            width: screenWidth * 0.11,
-            height: screenHeight * 0.17,
-            right: screenWidth * 0.04,
-          }}>
-          <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
-          <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
-          <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
-        </View>
-      );
-  }
-
-  return (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        position: 'absolute',
-        backgroundColor: 'red',
-        justifyContent: 'space-around',
-        width: screenWidth * 0.11,
-        height: screenHeight * 0.17,
-        right: screenWidth * 0.04,
-      }}>
-      <RedXTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
-      <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
-      <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
-    </View>
-  );
-};
-
 const LifeBoard: React.FunctionComponent = () => {
   const BOARD_HEIGHT = screenHeight * 0.15;
   const BOARD_WIDTH = screenWidth * 0.1;
   return (
     <View>
       <LeftBoardTemplate height={BOARD_HEIGHT} width={BOARD_WIDTH} />
+      <View
+        style={{
+          //   backgroundColor: 'red',
+          marginTop: -screenHeight * 0.03,
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <HeartSvg height={size(45)} width={size(45)} />
+        <Text
+          style={{
+            color: 'white',
+            position: 'absolute',
+            fontSize: size(20),
+            fontWeight: '800',
+          }}>
+          10
+        </Text>
+      </View>
     </View>
   );
 };
@@ -167,9 +110,22 @@ const LifeBoard: React.FunctionComponent = () => {
 const MenuBoard: React.FunctionComponent = () => {
   const BOARD_HEIGHT = screenHeight * 0.15;
   const BOARD_WIDTH = screenWidth * 0.1;
+
+  const handleOpenMenu = useCallback(() => {}, []);
+
   return (
     <View>
       <RightBoardTemplate height={BOARD_HEIGHT} width={BOARD_WIDTH} />
+
+      <Pressable
+        onPress={handleOpenMenu}
+        style={{
+          position: 'absolute',
+          marginTop: -screenHeight * 0.015,
+          borderRadius: 100,
+        }}>
+        <CloseSvg />
+      </Pressable>
     </View>
   );
 };

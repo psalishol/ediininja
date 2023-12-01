@@ -54,3 +54,91 @@ export {default as SandwichSvg} from './sandwich.svg';
 // Watermelon
 export {default as WatermelonCutSvg} from './watermelon_cut.svg';
 export {default as WatermelonSvg} from './watermelon.svg';
+
+// Egg
+export {default as EggCutSvg} from './egg_cut.svg';
+export {default as EggSvg} from './egg.svg';
+
+// Orange
+export {default as OrangeCutSvg} from './orange_cut.svg';
+export {default as OrangeSvg} from './orange.svg';
+
+// Blueberries
+export {default as BlueberriesCutSvg} from './blueberries_cut.svg';
+export {default as BlueberriesSvg} from './blueberries.svg';
+
+// Strawberries
+export {default as StrawberriesCutSvg} from './strawberries_cut.svg';
+export {default as StrawberriesSvg} from './strawberries.svg';
+
+// Kiwi
+export {default as KiwiCutSvg} from './kiwi_cut.svg';
+export {default as KiwiSvg} from './kiwi.svg';
+
+// Pineapple
+export {default as PineappleCutSvg} from './pineapple_cut.svg';
+export {default as PineappleSvg} from './pineapple.svg';
+
+// GrapeFruits
+export {default as GrapeFruitCutSvg} from './grapefruit_cut.svg';
+export {default as GrapeFruitSvg} from './grapefruit.svg';
+
+// Cherry
+export {default as CherryCutSvg} from './cherries_cut.svg';
+export {default as CherrySvg} from './cherries.svg';
+
+// Pear
+export {default as PearCutSvg} from './pear_cut.svg';
+export {default as PearSvg} from './pear.svg';
+
+// Peach
+export {default as PeachCutSvg} from './peach_cut.svg';
+export {default as PeachSvg} from './peach.svg';
+
+// Plum
+export {default as PlumCutSvg} from './plum_cut.svg';
+export {default as PlumSvg} from './plum.svg';
+
+// Avocado
+export {default as AvocadoCutSvg} from './avocado_Cut.svg';
+export {default as AvocadoSvg} from './avocado.svg';
+
+// Cucumber
+export {default as CucumberCutSvg} from './cucumber_cut.svg';
+export {default as CucumberSvg} from './cucumber.svg';
+
+// Spinach
+export {default as SpinachCutSvg} from './spinach_cut.svg';
+export {default as SpinachSvg} from './spinach.svg';
+
+// Cauliflower
+export {default as CauliflowerCutSvg} from './cauliflower_cut.svg';
+export {default as CauliflowerSvg} from './cauliflower.svg';
+
+// Zucchini
+export {default as ZucchiniCutSvg} from './zucchini_cut.svg';
+export {default as ZucchiniSvg} from './zucchini_cut.svg';
+
+// Sweet Potato
+export {default as SweetPotatoCutSvg} from './sweet_potato_cut.svg';
+export {default as SweetPotatoSvg} from './sweet_potato.svg';
+
+// Butternut Squach
+export {default as ButternutSquachCutSvg} from './butternut_squach_cut.svg';
+export {default as ButternutSquachSvg} from './butternut_squach.svg';
+
+// Salmon
+export {default as SalmonCutSvg} from './salmon_cut.svg';
+export {default as SalmonSvg} from './salmon.svg';
+
+// Tofu
+export {default as TofuCutSvg} from './tofu_cut.svg';
+export {default as TofuSvg} from './tofu.svg';
+
+// Greek Yoghurt
+export {default as GreekYoghurtCutSvg} from './yoghurt_cut.svg';
+export {default as GreekYoghurtSvg} from './yoghurt.svg';
+
+// Cottage Cheese
+export {default as CottageCheeseCutSvg} from './cottage_cheese_cut.svg';
+export {default as CottageCheeseSvg} from './cottage_cheese.svg';

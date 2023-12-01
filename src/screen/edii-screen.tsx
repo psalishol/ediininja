@@ -4,7 +4,6 @@ import {
   LeftBoardTemplate,
   RightBoardTemplate,
   ScoreBoardTemplate,
-  XTemplate,
 } from '../assets/svg';
 import {screenHeight, screenWidth} from '../consts';
 import {CurrentScore, HighScore} from '../component/atom';
@@ -25,7 +24,7 @@ const GameHeader: React.FunctionComponent = () => {
       style={{
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 15,
+        marginTop: screenHeight * 0.05,
       }}>
       <LifeBoard />
       <ScoreBoard />

@@ -6,7 +6,7 @@ import {
   ScoreBoard,
 } from '../component/organism';
 
-import {screenHeight, screenWidth} from '../consts';
+import {bezierEasing, linearEasing, screenHeight, screenWidth} from '../consts';
 import {size} from '../helper';
 import {
   AppleCutSvg,
@@ -18,7 +18,7 @@ import {
 import {MotiView, MotiText} from 'moti';
 import Animated, {runOnJS} from 'react-native-reanimated';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
-import {startGameAtom} from '../state';
+import {highScoreAtom, startGameAtom} from '../state';
 import {useAtom, useAtomValue} from 'jotai';
 import SoundPlayer from 'react-native-sound-player';
 import {slashImg} from '../assets/img';
@@ -76,57 +76,101 @@ const Lobby: React.FunctionComponent = () => {
           justifyContent: 'center',
           alignSelf: 'center',
         }}>
-        <MotiView from={{opacity: [0.8, 1, 0.7, 1]}}>
-          <Text
-            style={{
-              color: 'white',
-              textAlign: 'center',
-              fontSize: size(30),
-              fontWeight: '800',
-            }}>
-            Ready to be a Ninja?
-          </Text>
-        </MotiView>
+        <ReadyToBeANinjaText />
 
         <StartGameApple />
 
         <StartGameButton />
 
-        <MotiText
-          from={{translateY: [size(5), 0, size(5), 0]}}
-          transition={{type: 'timing', duration: 500, loop: true, delay: 1000}}
-          style={{color: 'gold', textAlign: 'center', marginTop: size(30)}}>
-          Slice fruit to start
-        </MotiText>
+        <SliceFruitText />
+
+        <LobbyHighScoreDisplay />
       </View>
     </View>
+  );
+};
+
+const LobbyHighScoreDisplay: React.FunctionComponent = () => {
+  const highScore = useAtomValue(highScoreAtom);
+  return (
+    <Text
+      style={{
+        color: 'white',
+        fontSize: size(20),
+        fontWeight: '600',
+        marginLeft: screenWidth * 0.05,
+        marginTop: screenHeight * 0.15,
+      }}>
+      high score: {highScore}{' '}
+    </Text>
+  );
+};
+
+const ReadyToBeANinjaText: React.FunctionComponent = () => {
+  const gameStarted = useAtomValue(startGameAtom);
+
+  return (
+    <MotiView from={{opacity: [0.8, 1, 0.7, 1]}}>
+      <Text
+        style={{
+          color: 'white',
+          textAlign: 'center',
+          fontSize: size(30),
+          fontWeight: '800',
+        }}>
+        {gameStarted ? 'Starting game' : 'Ready to be a Ninja?'}
+      </Text>
+    </MotiView>
+  );
+};
+
+const SliceFruitText: React.FunctionComponent = () => {
+  const gameStarted = useAtomValue(startGameAtom);
+
+  if (gameStarted) {
+    return <></>;
+  }
+
+  return (
+    <MotiText
+      from={{translateY: [size(5), 0, size(5), 0]}}
+      transition={{type: 'timing', duration: 500, loop: true, delay: 1000}}
+      style={{color: 'gold', textAlign: 'center', marginTop: size(30)}}>
+      Slice fruit to start
+    </MotiText>
   );
 };
 
 const StartGameApple: React.FunctionComponent = () => {
   const gameStarted = useAtomValue(startGameAtom);
 
-  // render cut apple if game started.
-  if (gameStarted) {
-    return <MotiView>
-
-    </MotiView>;
-  }
-
   return (
-    <MotiView
-      from={{rotate: '0deg'}}
-      animate={{rotate: '360deg'}}
-      transition={{
-        loop: true,
-        type: 'timing',
-        duration: 2000,
-        repeatReverse: false,
-      }}
-      style={{marginTop: size(40), elevation: 50}}>
-      <AppleSvg height={size(100)} />
-      {/* <AppleCutSvg height={size(100)} /> */}
-    </MotiView>
+    <>
+      {!gameStarted && (
+        <MotiView
+          from={{rotate: '0deg'}}
+          animate={{rotate: '360deg'}}
+          transition={{
+            loop: true,
+            type: 'timing',
+            duration: 2000,
+            repeatReverse: false,
+          }}
+          style={{marginTop: size(40), elevation: 50}}>
+          <AppleSvg height={size(100)} />
+        </MotiView>
+      )}
+
+      {gameStarted && (
+        <MotiView
+          from={{translateY: 0}}
+          animate={{translateY: screenHeight}}
+          transition={{type: 'timing', duration: 1200, easing: bezierEasing}}
+          style={{marginTop: size(40), elevation: 50}}>
+          <AppleCutSvg height={size(100)} />
+        </MotiView>
+      )}
+    </>
   );
 };
 

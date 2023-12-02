@@ -1,8 +1,10 @@
 import {StyleSheet, Text, View} from 'react-native';
 import {screenHeight, screenWidth} from '../../consts';
+import {useAtomValue} from 'jotai';
+import {currentScoreAtom} from '../../state';
 
 const CurrentScore: React.FunctionComponent = () => {
-  const score = 1000;
+  const score = useAtomValue(currentScoreAtom);
   return (
     <View style={styles.container}>
       <Text style={styles.score}>{score}</Text>

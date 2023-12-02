@@ -3,6 +3,7 @@ import {backgroundImg} from '../../assets/img';
 import {useEffect} from 'react';
 import SystemNavigationBar from 'react-native-system-navigation-bar';
 import {screenHeight, screenWidth} from '../../consts';
+import SoundPlayer from 'react-native-sound-player';
 
 interface Props {
   children: React.ReactNode;
@@ -10,7 +11,19 @@ interface Props {
 
 const GameBackground: React.FunctionComponent<Props> = ({children}) => {
   useEffect(() => {
+    // Plays the game theme sound
+    const playThemeTrack = async () => {
+      try {
+        SoundPlayer.playSoundFile('background1', 'mpeg');
+      } catch (e) {
+        console.log(`cannot play the sound file`, e);
+      }
+    };
+
+    playThemeTrack();
+
     SystemNavigationBar.fullScreen();
+    SystemNavigationBar.navigationHide();
   }, []);
 
   return (

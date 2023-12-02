@@ -3,14 +3,15 @@ import {View} from 'react-native';
 import {RedXTemplate, XTemplate} from '../../assets/svg';
 import {screenWidth, screenHeight} from '../../consts';
 import {size} from '../../helper';
-import {PlayerLife} from '../../types';
+import {playerLifeAtom} from '../../state';
+import {useAtomValue} from 'jotai';
 
 const PlayerLifeDisplay: React.FunctionComponent = () => {
-  const [lifeLeft] = useState<PlayerLife>('1');
+  const playerLife = useAtomValue(playerLifeAtom);
 
   const LIFE_DIMENSION = size(30);
 
-  switch (lifeLeft) {
+  switch (playerLife) {
     case '1':
       return (
         <View

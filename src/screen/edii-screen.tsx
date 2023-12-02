@@ -16,6 +16,11 @@ import {
   PopoverNinja,
 } from '../assets/svg';
 import {MotiView, MotiText} from 'moti';
+import Animated, {runOnJS} from 'react-native-reanimated';
+import {Gesture, GestureDetector} from 'react-native-gesture-handler';
+import {startGameAtom} from '../state';
+import {useAtom} from 'jotai';
+import SoundPlayer from 'react-native-sound-player';
 
 const EdiiScreen: React.FunctionComponent = () => {
   return (
@@ -82,7 +87,19 @@ const Lobby: React.FunctionComponent = () => {
           </Text>
         </MotiView>
 
-        <StartGameButton />
+        <MotiView
+          from={{rotate: '0deg'}}
+          animate={{rotate: '360deg'}}
+          transition={{
+            loop: true,
+            type: 'timing',
+            duration: 2000,
+            repeatReverse: false,
+          }}
+          style={{marginTop: size(40), elevation: 50}}>
+          <AppleSvg height={size(100)} />
+          <StartGameButton />
+        </MotiView>
 
         <MotiText
           from={{translateY: [size(5), 0, size(5), 0]}}
@@ -96,18 +113,36 @@ const Lobby: React.FunctionComponent = () => {
 };
 
 const StartGameButton: React.FunctionComponent = () => {
+  const [gameStarted, setGameStarted] = useAtom(startGameAtom);
+
+  console.log(gameStarted, 'gamestarted');
+
+  const handleGameStarted = async () => {
+    try {
+      setGameStarted(true);
+      // play slash sound
+      SoundPlayer.playSoundFile('slash2', 'mpeg');
+    } catch (error) {
+      console.log('error starting game', error);
+    }
+  };
+
+  const gesture = Gesture.Pan().onEnd(_e => {
+    runOnJS(handleGameStarted)();
+  });
+
   return (
-    <MotiView
-      from={{rotate: '0deg'}}
-      animate={{rotate: '360deg'}}
-      transition={{
-        loop: true,
-        type: 'timing',
-        duration: 2000,
-        repeatReverse: false,
-      }}
-      style={{marginTop: size(40), elevation: 50}}>
-      <AppleSvg height={size(100)} />
-    </MotiView>
+    <GestureDetector gesture={gesture}>
+      <Animated.View
+        style={{
+          //   backgroundColor: 'red',
+          height: size(140),
+          width: size(140),
+          position: 'absolute',
+          alignSelf: 'center',
+        }}>
+            
+        </Animated.View>
+    </GestureDetector>
   );
 };

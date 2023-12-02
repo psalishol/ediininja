@@ -1,23 +1,28 @@
-import {Pressable, SafeAreaView, Text, View} from 'react-native';
-import {GameBackground, LifeBoard, ScoreBoard} from '../component/organism';
+import {Text, View} from 'react-native';
 import {
-  CloseSvg,
-  HeartSvg,
-  LeftBoardTemplate,
-  RightBoardTemplate,
-  ScoreBoardTemplate,
-} from '../assets/svg';
+  GameBackground,
+  LifeBoard,
+  MenuBoard,
+  ScoreBoard,
+} from '../component/organism';
+
 import {screenHeight, screenWidth} from '../consts';
-import {CurrentScore, HighScore} from '../component/atom';
 import {size} from '../helper';
-import {PlayerLifeDisplay, SlashedFruit} from '../component/molecule';
-import {GameOverLayout} from '../layout';
-import {useCallback} from 'react';
+import {
+  AppleCutSvg,
+  AppleSvg,
+  PopoverBoardSvg,
+  PopoverEdiiSvg,
+  PopoverNinja,
+} from '../assets/svg';
+import {MotiView, MotiText} from 'moti';
 
 const EdiiScreen: React.FunctionComponent = () => {
   return (
     <GameBackground>
-      <SafeAreaView
+      <Lobby />
+      {/* Game header */}
+      {/* <View
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
@@ -26,7 +31,7 @@ const EdiiScreen: React.FunctionComponent = () => {
         <LifeBoard />
         <ScoreBoard />
         <MenuBoard />
-      </SafeAreaView>
+      </View> */}
       {/* <GameOverLayout /> */}
     </GameBackground>
   );
@@ -34,25 +39,75 @@ const EdiiScreen: React.FunctionComponent = () => {
 
 export default EdiiScreen;
 
-const MenuBoard: React.FunctionComponent = () => {
-  const BOARD_HEIGHT = screenHeight * 0.15;
-  const BOARD_WIDTH = screenWidth * 0.1;
-
-  const handleOpenMenu = useCallback(() => {}, []);
-
+const Lobby: React.FunctionComponent = () => {
   return (
-    <View>
-      <RightBoardTemplate height={BOARD_HEIGHT} width={BOARD_WIDTH} />
+    <View
+      style={{
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        left: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0,0,0,0.6)',
+        padding: size(20),
+      }}>
+      <PopoverBoardSvg />
 
-      <Pressable
-        onPress={handleOpenMenu}
+      <View
         style={{
           position: 'absolute',
-          marginTop: -screenHeight * 0.015,
-          borderRadius: 100,
+          marginLeft: screenWidth * 0.6,
+          marginTop: screenHeight * 0.65,
         }}>
-        <CloseSvg />
-      </Pressable>
+        <PopoverNinja height={size(100)} width={100} />
+      </View>
+
+      <View
+        style={{
+          position: 'absolute',
+          marginTop: size(70),
+          width: screenWidth * 0.6,
+          justifyContent: 'center',
+          alignSelf: 'center',
+        }}>
+        <MotiView from={{opacity: [0.8, 1, 0.7, 1]}}>
+          <Text
+            style={{
+              color: 'white',
+              textAlign: 'center',
+              fontSize: size(30),
+              fontWeight: '800',
+            }}>
+            Ready to be a Ninja?
+          </Text>
+        </MotiView>
+
+        <StartGameButton />
+
+        <MotiText
+          from={{translateY: [size(5), 0, size(5), 0]}}
+          transition={{type: 'timing', duration: 500, loop: true, delay: 1000}}
+          style={{color: 'gold', textAlign: 'center', marginTop: size(30)}}>
+          Slice fruit to start
+        </MotiText>
+      </View>
     </View>
+  );
+};
+
+const StartGameButton: React.FunctionComponent = () => {
+  return (
+    <MotiView
+      from={{rotate: '0deg'}}
+      animate={{rotate: '360deg'}}
+      transition={{
+        loop: true,
+        type: 'timing',
+        duration: 2000,
+        repeatReverse: false,
+      }}
+      style={{marginTop: size(40), elevation: 50}}>
+      <AppleSvg height={size(100)} />
+    </MotiView>
   );
 };

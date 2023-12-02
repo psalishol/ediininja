@@ -92,6 +92,12 @@ const Lobby: React.FunctionComponent = () => {
 
 const LobbyHighScoreDisplay: React.FunctionComponent = () => {
   const highScore = useAtomValue(highScoreAtom);
+  const gameStarted = useAtomValue(startGameAtom);
+
+  if (gameStarted) {
+    return <></>;
+  }
+
   return (
     <Text
       style={{

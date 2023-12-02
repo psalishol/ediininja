@@ -1,4 +1,4 @@
-import {Text, View} from 'react-native';
+import {Image, Text, View} from 'react-native';
 import {
   GameBackground,
   LifeBoard,
@@ -19,8 +19,9 @@ import {MotiView, MotiText} from 'moti';
 import Animated, {runOnJS} from 'react-native-reanimated';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import {startGameAtom} from '../state';
-import {useAtom} from 'jotai';
+import {useAtom, useAtomValue} from 'jotai';
 import SoundPlayer from 'react-native-sound-player';
+import {slashImg} from '../assets/img';
 
 const EdiiScreen: React.FunctionComponent = () => {
   return (
@@ -87,19 +88,9 @@ const Lobby: React.FunctionComponent = () => {
           </Text>
         </MotiView>
 
-        <MotiView
-          from={{rotate: '0deg'}}
-          animate={{rotate: '360deg'}}
-          transition={{
-            loop: true,
-            type: 'timing',
-            duration: 2000,
-            repeatReverse: false,
-          }}
-          style={{marginTop: size(40), elevation: 50}}>
-          <AppleSvg height={size(100)} />
-          <StartGameButton />
-        </MotiView>
+        <StartGameApple />
+
+        <StartGameButton />
 
         <MotiText
           from={{translateY: [size(5), 0, size(5), 0]}}
@@ -112,10 +103,35 @@ const Lobby: React.FunctionComponent = () => {
   );
 };
 
+const StartGameApple: React.FunctionComponent = () => {
+  const gameStarted = useAtomValue(startGameAtom);
+
+  // render cut apple if game started.
+  if (gameStarted) {
+    return <MotiView>
+
+    </MotiView>;
+  }
+
+  return (
+    <MotiView
+      from={{rotate: '0deg'}}
+      animate={{rotate: '360deg'}}
+      transition={{
+        loop: true,
+        type: 'timing',
+        duration: 2000,
+        repeatReverse: false,
+      }}
+      style={{marginTop: size(40), elevation: 50}}>
+      <AppleSvg height={size(100)} />
+      {/* <AppleCutSvg height={size(100)} /> */}
+    </MotiView>
+  );
+};
+
 const StartGameButton: React.FunctionComponent = () => {
   const [gameStarted, setGameStarted] = useAtom(startGameAtom);
-
-  console.log(gameStarted, 'gamestarted');
 
   const handleGameStarted = async () => {
     try {
@@ -135,14 +151,26 @@ const StartGameButton: React.FunctionComponent = () => {
     <GestureDetector gesture={gesture}>
       <Animated.View
         style={{
-          //   backgroundColor: 'red',
           height: size(140),
           width: size(140),
           position: 'absolute',
           alignSelf: 'center',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}>
-            
-        </Animated.View>
+        {gameStarted && (
+          <MotiView
+            from={{opacity: 1, translateX: -size(20), translateY: size(20)}}
+            animate={{opacity: 0, translateX: size(50), translateY: -size(30)}}
+            style={{position: 'absolute'}}>
+            <Image
+              style={{height: size(120), width: size(120), marginTop: size(30)}}
+              resizeMode="contain"
+              source={slashImg}
+            />
+          </MotiView>
+        )}
+      </Animated.View>
     </GestureDetector>
   );
 };

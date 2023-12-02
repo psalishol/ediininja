@@ -18,27 +18,42 @@ import {
 import {MotiView, MotiText} from 'moti';
 import Animated, {runOnJS} from 'react-native-reanimated';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
-import {highScoreAtom, startGameAtom} from '../state';
-import {useAtom, useAtomValue} from 'jotai';
+import {highScoreAtom, startingGameAtom, startGameAtom} from '../state';
+import {useAtom, useAtomValue, useSetAtom} from 'jotai';
 import SoundPlayer from 'react-native-sound-player';
 import {slashImg} from '../assets/img';
+import {useEffect} from 'react';
 
 const EdiiScreen: React.FunctionComponent = () => {
+  const [startGame, setStartGame] = useAtom(startGameAtom);
+
+  const [startingGame, setStartingGame] = useAtom(startingGameAtom);
+
+  useEffect(() => {
+    if (startingGame) {
+      setTimeout(() => {
+        setStartGame(true);
+        setStartingGame(false);
+      }, 1500); // START GAME AFTER 1500 ms of slicing apple
+    }
+  }, [startingGame]);
+
   return (
     <GameBackground>
-      <Lobby />
+      {!startGame && <Lobby />}
       {/* Game header */}
-      {/* <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginTop: screenHeight * 0.05,
-        }}>
-        <LifeBoard />
-        <ScoreBoard />
-        <MenuBoard />
-      </View> */}
-      {/* <GameOverLayout /> */}
+      {startGame && (
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginTop: screenHeight * 0.05,
+          }}>
+          <LifeBoard />
+          <ScoreBoard />
+          <MenuBoard />
+        </View>
+      )}
     </GameBackground>
   );
 };
@@ -92,9 +107,9 @@ const Lobby: React.FunctionComponent = () => {
 
 const LobbyHighScoreDisplay: React.FunctionComponent = () => {
   const highScore = useAtomValue(highScoreAtom);
-  const gameStarted = useAtomValue(startGameAtom);
+  const startingGame = useAtomValue(startingGameAtom);
 
-  if (gameStarted) {
+  if (startingGame) {
     return <></>;
   }
 
@@ -113,7 +128,7 @@ const LobbyHighScoreDisplay: React.FunctionComponent = () => {
 };
 
 const ReadyToBeANinjaText: React.FunctionComponent = () => {
-  const gameStarted = useAtomValue(startGameAtom);
+  const startingGame = useAtomValue(startingGameAtom);
 
   return (
     <MotiView from={{opacity: [0.8, 1, 0.7, 1]}}>
@@ -124,16 +139,16 @@ const ReadyToBeANinjaText: React.FunctionComponent = () => {
           fontSize: size(30),
           fontWeight: '800',
         }}>
-        {gameStarted ? 'Starting game' : 'Ready to be a Ninja?'}
+        {startingGame ? 'Starting game' : 'Ready to be a Ninja?'}
       </Text>
     </MotiView>
   );
 };
 
 const SliceFruitText: React.FunctionComponent = () => {
-  const gameStarted = useAtomValue(startGameAtom);
+  const startingGame = useAtomValue(startingGameAtom);
 
-  if (gameStarted) {
+  if (startingGame) {
     return <></>;
   }
 
@@ -148,11 +163,11 @@ const SliceFruitText: React.FunctionComponent = () => {
 };
 
 const StartGameApple: React.FunctionComponent = () => {
-  const gameStarted = useAtomValue(startGameAtom);
+  const startingGame = useAtomValue(startingGameAtom);
 
   return (
     <>
-      {!gameStarted && (
+      {!startingGame && (
         <MotiView
           from={{rotate: '0deg'}}
           animate={{rotate: '360deg'}}
@@ -167,7 +182,7 @@ const StartGameApple: React.FunctionComponent = () => {
         </MotiView>
       )}
 
-      {gameStarted && (
+      {startingGame && (
         <MotiView
           from={{translateY: 0}}
           animate={{translateY: screenHeight}}
@@ -181,11 +196,11 @@ const StartGameApple: React.FunctionComponent = () => {
 };
 
 const StartGameButton: React.FunctionComponent = () => {
-  const [gameStarted, setGameStarted] = useAtom(startGameAtom);
+  const [startingGame, setStartingGame] = useAtom(startingGameAtom);
 
   const handleGameStarted = async () => {
     try {
-      setGameStarted(true);
+      setStartingGame(true);
       // play slash sound
       SoundPlayer.playSoundFile('slash2', 'mpeg');
     } catch (error) {
@@ -208,7 +223,7 @@ const StartGameButton: React.FunctionComponent = () => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        {gameStarted && (
+        {startingGame && (
           <MotiView
             from={{opacity: 1, translateX: -size(20), translateY: size(20)}}
             animate={{opacity: 0, translateX: size(50), translateY: -size(30)}}

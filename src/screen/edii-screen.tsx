@@ -34,7 +34,7 @@ const EdiiScreen: React.FunctionComponent = () => {
       setTimeout(() => {
         setStartGame(true);
         setStartingGame(false);
-      }, 1500); // START GAME AFTER 1500 ms of slicing apple
+      }, 1000); // START GAME AFTER 1500 ms of slicing apple
     }
   }, [startingGame]);
 

@@ -35,6 +35,7 @@ import {
   LobbyNinjaText,
   SliceFruitText,
 } from '../component/atom';
+import { LobbySliceApple, StartGameButton } from '../component/molecule';
 
 const EdiiScreen: React.FunctionComponent = () => {
   const [startGame] = useAtom(startGameAtom);
@@ -141,7 +142,7 @@ const Lobby: React.FunctionComponent = () => {
         }}>
         <LobbyNinjaText />
 
-        <StartGameApple />
+        <LobbySliceApple />
 
         <StartGameButton />
 
@@ -153,80 +154,3 @@ const Lobby: React.FunctionComponent = () => {
   );
 };
 
-const StartGameApple: React.FunctionComponent = () => {
-  const startingGame = useAtomValue(startingGameAtom);
-
-  return (
-    <>
-      {!startingGame && (
-        <MotiView
-          from={{rotate: '0deg'}}
-          animate={{rotate: '360deg'}}
-          transition={{
-            loop: true,
-            type: 'timing',
-            duration: 2000,
-            repeatReverse: false,
-          }}
-          style={{marginTop: size(40), elevation: 50}}>
-          <AppleSvg height={size(100)} />
-        </MotiView>
-      )}
-
-      {startingGame && (
-        <MotiView
-          from={{translateY: 0}}
-          animate={{translateY: screenHeight}}
-          transition={{type: 'timing', duration: 1200, easing: bezierEasing}}
-          style={{marginTop: size(40), elevation: 50}}>
-          <AppleCutSvg height={size(100)} />
-        </MotiView>
-      )}
-    </>
-  );
-};
-
-const StartGameButton: React.FunctionComponent = () => {
-  const [startingGame, setStartingGame] = useAtom(startingGameAtom);
-
-  const handleGameStarted = async () => {
-    try {
-      setStartingGame(true);
-      // play slash sound
-      SoundPlayer.playSoundFile('slash2', 'mpeg');
-    } catch (error) {
-      console.log('error starting game', error);
-    }
-  };
-
-  const gesture = Gesture.Pan().onEnd(_e => {
-    runOnJS(handleGameStarted)();
-  });
-
-  return (
-    <GestureDetector gesture={gesture}>
-      <Animated.View
-        style={{
-          height: size(140),
-          width: size(140),
-          position: 'absolute',
-          alignSelf: 'center',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        {startingGame && (
-          <MotiView
-            from={{opacity: 1, translateX: -size(20), translateY: size(20)}}
-            animate={{opacity: 0, translateX: size(50), translateY: -size(30)}}
-            style={{position: 'absolute'}}>
-            <Image
-              style={{height: size(120), width: size(120), marginTop: size(30)}}
-              resizeMode="contain"
-              source={slashImg}
-            />
-          </MotiView>
-        )}
-      </Animated.View>
-    </GestureDetector>
-  );
-};

@@ -29,10 +29,10 @@ import {useAtom, useAtomValue, useSetAtom} from 'jotai';
 import SoundPlayer from 'react-native-sound-player';
 import {slashImg} from '../assets/img';
 import {useCallback, useEffect, useState} from 'react';
-import {CountDownToStartText} from '../component/atom';
+import {CountDownToStartText, LobbyHighScoreText} from '../component/atom';
 
 const EdiiScreen: React.FunctionComponent = () => {
-  const [startGame, setStartGame] = useAtom(startGameAtom);
+  const [startGame] = useAtom(startGameAtom);
 
   const [startingGame, setStartingGame] = useAtom(startingGameAtom);
 
@@ -45,8 +45,8 @@ const EdiiScreen: React.FunctionComponent = () => {
   useEffect(() => {
     if (startingGame) {
       setTimeout(() => {
-        setStartGame(true);
         setStartingGame(false);
+        setGameCountdownStart(true);
       }, 1000); // START GAME AFTER 1500 ms of slicing apple
     }
   }, [startingGame]);
@@ -142,31 +142,9 @@ const Lobby: React.FunctionComponent = () => {
 
         <SliceFruitText />
 
-        <LobbyHighScoreDisplay />
+        <LobbyHighScoreText />
       </View>
     </View>
-  );
-};
-
-const LobbyHighScoreDisplay: React.FunctionComponent = () => {
-  const highScore = useAtomValue(highScoreAtom);
-  const startingGame = useAtomValue(startingGameAtom);
-
-  if (startingGame) {
-    return <></>;
-  }
-
-  return (
-    <Text
-      style={{
-        color: 'white',
-        fontSize: size(20),
-        fontWeight: '600',
-        marginLeft: screenWidth * 0.05,
-        marginTop: screenHeight * 0.15,
-      }}>
-      high score: {highScore}{' '}
-    </Text>
   );
 };
 

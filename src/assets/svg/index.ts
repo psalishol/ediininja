@@ -158,3 +158,43 @@ export {default as CottageCheeseSvg} from './cottage_cheese.svg';
 // Walnuts
 export {default as WalnutsCutSvg} from './walnut_cut.svg';
 export {default as WalnutsSvg} from './walnuts.svg';
+
+// Pasta
+export {default as PastaCutSvg} from './pasta_cut.svg';
+export {default as PastaSvg} from './pasta.svg';
+
+// Rice Cake
+export {default as RiceCakeCutSvg} from './rice_cake_Cut.svg';
+export {default as RiceCakeSvg} from './rice_cake.svg';
+
+// BlackBeans
+export {default as BlackBeanCutSvg} from './black_beans_cut.svg';
+export {default as BlackBeanSvg} from './black_beans.svg';
+
+// Chickpeas
+export {default as ChickpeasCutSvg} from './chickpeas_cut.svg';
+export {default as ChickpeaSvg} from './chickpeas.svg';
+
+// Lentil
+export {default as LentilCutSvg} from './lentil_cut.svg';
+export {default as LentilSvg} from './lentil.svg';
+
+// Kidney Beans
+export {default as KidneyBeansCutSvg} from './kidney_beans_cut.svg';
+export {default as KidneyBeansSvg} from './kidney_beans.svg';
+
+// Milk
+export {default as MilkCutSvg} from './milk_cut.svg';
+export {default as MilkSvg} from './milk.svg';
+
+// Cheese
+export {default as CheeseCutSvg} from './cheese_cut.svg';
+export {default as CheeseSvg} from './cheese.svg';
+
+// Bacon
+export {default as BaconCutSvg} from './bacon_cut.svg';
+export {default as BaconSvg} from './bacon.svg';
+
+// Beef
+export {default as BeefCutSvg} from './beef_cut.svg';
+export {default as BeefSvg} from './beef.svg';

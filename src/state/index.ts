@@ -1,5 +1,5 @@
 import {atom} from 'jotai';
-import {PlayerLife} from '../types';
+import {FoodItems, PlayerLife} from '../types';
 
 // holds state for either game over or not. defaults to (false)
 export const gameOverAtom = atom<boolean>(false);
@@ -18,3 +18,5 @@ export const currentScoreAtom = atom<number>(0);
 export const playerLifeAtom = atom<PlayerLife>('3');
 
 export const openGameMenuAtom = atom<boolean>(false);
+
+export const lastSlicedFoodItemAtom = atom<FoodItems | undefined>(undefined);

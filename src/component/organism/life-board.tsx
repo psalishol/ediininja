@@ -2,10 +2,15 @@ import {View, Text} from 'react-native';
 import {LeftBoardTemplate, HeartSvg} from '../../assets/svg';
 import {screenHeight, screenWidth} from '../../consts';
 import {size} from '../../helper';
+import {playerLifeAtom} from '../../state';
+import {useAtomValue} from 'jotai';
 
 const LifeBoard: React.FunctionComponent = () => {
   const BOARD_HEIGHT = screenHeight * 0.15;
   const BOARD_WIDTH = screenWidth * 0.1;
+
+  const life = useAtomValue(playerLifeAtom);
+
   return (
     <View>
       <LeftBoardTemplate height={BOARD_HEIGHT} width={BOARD_WIDTH} />
@@ -28,7 +33,7 @@ const LifeBoard: React.FunctionComponent = () => {
             fontSize: size(20),
             fontWeight: '800',
           }}>
-          10
+          {life}
         </Text>
       </View>
     </View>

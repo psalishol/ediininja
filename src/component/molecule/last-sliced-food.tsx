@@ -1,9 +1,19 @@
 import {View, Image} from 'react-native';
 import {slashImg} from '../../assets/img';
-import {UncutAppleSvg} from '../../assets/svg';
 import {screenWidth, screenHeight} from '../../consts';
+import {lastSlicedFoodItemAtom} from '../../state';
+import {useAtomValue} from 'jotai';
+import {renderFood} from '../../util';
 
 const SlashedFruit: React.FunctionComponent = () => {
+  const lastSlicedFood = useAtomValue(lastSlicedFoodItemAtom);
+
+  const ITEM_SIZE = screenHeight * 0.2;
+
+  if (!lastSlicedFood) {
+    return <></>;
+  }
+
   return (
     <View
       style={{
@@ -21,7 +31,7 @@ const SlashedFruit: React.FunctionComponent = () => {
         shadowOpacity: 0.9,
         borderRadius: 100,
       }}>
-      <UncutAppleSvg height={screenHeight * 0.2} width={screenHeight * 0.2} />
+      {renderFood(lastSlicedFood, false, ITEM_SIZE)}
       <Image
         resizeMode="contain"
         style={{

@@ -1,8 +1,12 @@
 import {MotiView} from 'moti';
 import React, {useState, useCallback, memo} from 'react';
 import {FoodSlicer} from '../component/molecule';
-import {screenHeight, screenWidth} from '../consts';
+import {linearEasing, screenHeight, screenWidth} from '../consts';
 import {randomInt, size} from '../helper';
+import {Text, View} from 'react-native';
+import {RedXTemplate} from '../assets/svg';
+import {gameOverAtom, playerLifeAtom} from '../state';
+import {useAtom, useSetAtom} from 'jotai';
 
 interface Props {
   children: React.ReactNode;
@@ -16,27 +20,69 @@ const FoodTranslationContainer: React.FunctionComponent<Props> = ({
   onFinishAnimation,
 }) => {
   const [animatedUp, setAnimatedUp] = useState<boolean>(false);
+  const [sliced, setSliced] = useState<boolean>(false);
 
-  // This is the duration taken for the food to translate up.
-  // TODO: make the duration random between 1000 to 3000
-  const FOOD_TRANSLATION_DURATION = 4000; // 2secs
+  const [finishedAnimating, setFinishAnimating] = useState<boolean>(false);
+
+  const setGameOver = useSetAtom(gameOverAtom);
+
+  const [playerLife, setPlayerLife] = useAtom(playerLifeAtom);
+
+  const FOOD_TRANSLATION_DURATION = 4000; // 4secs
+
+  const handleSlice = useCallback(() => {
+    setSliced(true);
+    onSlice();
+  }, []);
 
   const handleFinishAnimatingUp = useCallback(() => {
     if (animatedUp) {
-      // TODO: remove food from projected map.
-      // decrease the life, because the food was not sliced.
-      console.log('finished animating');
+      setFinishAnimating(true);
+      if (!sliced) {
+        if (playerLife === '1') {
+          setGameOver(true);
+        } else {
+          setPlayerLife(prev => {
+            if (prev === '3') {
+              return '2';
+            }
+            return '1';
+          });
+        }
+      } else {
+      }
+
       onFinishAnimation();
     } else {
       setAnimatedUp(true);
     }
-  }, [animatedUp]);
+  }, [animatedUp, sliced]);
 
-  console.log('animated up', animatedUp);
+  // console.log('animated up', animatedUp);
+
+  console.log('finished', finishedAnimating && !sliced);
 
   const initialPosition = randomInt(screenWidth * 0.7);
   const midPosition = initialPosition + initialPosition * 0.1;
   const finalPosition = initialPosition + initialPosition * 0.2;
+
+  // if (finishedAnimating && !sliced) {
+  //   return (
+  //     <MotiView
+  //     // from={{opacity: 1, translateY: 0}}
+  //     // animate={{opacity: 0, translateY: -size(100)}}
+  //     // transition={{type: 'timing', duration: 1000, easing: linearEasing}}
+  //     // style={{position: 'absolute'}}
+  //     >
+  //       {/* <RedXTemplate height={size(40)} width={size(40)} /> */}
+  //       <RedXTemplate />
+  //     </MotiView>
+  //   );
+  // }
+
+  // if (finishedAnimating && sliced) {
+  //   return <></>;
+  // }
 
   return (
     <MotiView
@@ -56,7 +102,7 @@ const FoodTranslationContainer: React.FunctionComponent<Props> = ({
       onDidAnimate={handleFinishAnimatingUp}
       transition={{type: 'timing', duration: FOOD_TRANSLATION_DURATION}}>
       {children}
-      <FoodSlicer onSlice={onSlice} />
+      <FoodSlicer onSlice={handleSlice} />
     </MotiView>
   );
 };

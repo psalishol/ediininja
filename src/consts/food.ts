@@ -5,7 +5,7 @@ interface Food {
   point: number;
 }
 
-export const foodMap: Array<Food> = [
+export const foodLibrary: Array<Food> = [
   {foodItem: 'Apple', point: 15},
   {foodItem: 'Banana', point: 30},
   {foodItem: 'Brocolli', point: 5},

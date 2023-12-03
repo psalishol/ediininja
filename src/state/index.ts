@@ -16,3 +16,5 @@ export const highScoreAtom = atom<number>(0);
 export const currentScoreAtom = atom<number>(0);
 
 export const playerLifeAtom = atom<PlayerLife>('3');
+
+export const openGameMenuAtom = atom<boolean>(false);

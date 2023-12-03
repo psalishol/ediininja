@@ -2,6 +2,13 @@
 // The max life is (3)
 export type PlayerLife = '1' | '2' | '3';
 
+// FoodBuilder defines the interface for the food translated on and off the screen
+export interface FoodBuilder {
+  id: string;
+  foodItem: FoodItems;
+  point: number;
+}
+
 // These are the food items that could be displayed to the player
 export type FoodItems =
   | 'Apple'

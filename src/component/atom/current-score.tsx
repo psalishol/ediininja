@@ -1,13 +1,14 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {screenHeight, screenWidth} from '../../consts';
 import {useAtomValue} from 'jotai';
 import {currentScoreAtom} from '../../state';
+import ScalingScoreText from './scaling-score-text';
 
 const CurrentScore: React.FunctionComponent = () => {
   const score = useAtomValue(currentScoreAtom);
   return (
     <View style={styles.container}>
-      <Text style={styles.score}>{score}</Text>
+      <ScalingScoreText value={score} />
     </View>
   );
 };
@@ -23,10 +24,5 @@ const styles = StyleSheet.create({
     width: screenWidth * 0.1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  score: {
-    fontWeight: '900',
-    fontSize: 20,
-    color: 'white',
   },
 });

@@ -1,20 +1,10 @@
-import {Text, TouchableOpacity, View} from 'react-native';
-import {
-  Liftview,
-  QuitGameButton,
-  ResumeGameButton,
-} from '../component/molecule';
-import {
-  CloseSvg,
-  PopoverBoardSvg,
-  PopoverEdiiSvg,
-  PopoverNinja,
-} from '../assets/svg';
+import {Text, View} from 'react-native';
+import {CloseGameOverModalButton, Liftview} from '../component/molecule';
+import {PopoverBoardSvg, PopoverEdiiSvg, PopoverNinja} from '../assets/svg';
 import {screenHeight, screenWidth} from '../consts';
 import {MotiView} from 'moti';
 import {currentScoreAtom, gameOverAtom, highScoreAtom} from '../state';
-import {useAtomValue, useSetAtom} from 'jotai';
-import {useCallback} from 'react';
+import {useAtomValue} from 'jotai';
 import {size} from '../helper';
 
 const GameOverLayout: React.FunctionComponent = () => {
@@ -110,10 +100,6 @@ const GameOverLayout: React.FunctionComponent = () => {
                 }}>
                 <PopoverEdiiSvg height={size(220)} width={size(220)} />
               </View>
-
-              {/* <ResumeGameButton /> */}
-
-              {/* <QuitGameButton /> */}
             </MotiView>
           </View>
         );
@@ -123,27 +109,3 @@ const GameOverLayout: React.FunctionComponent = () => {
 };
 
 export default GameOverLayout;
-
-const CloseGameOverModalButton: React.FunctionComponent = () => {
-  const SIZE = screenHeight * 0.15;
-
-  const handleCloseModal = useCallback(() => {}, []);
-
-  return (
-    <TouchableOpacity
-      onPress={handleCloseModal}
-      activeOpacity={0.8}
-      style={{
-        height: SIZE * 0.8,
-        width: SIZE * 0.8,
-        position: 'absolute',
-        right: 0,
-        marginTop: screenHeight * 0.09,
-        marginRight: -screenWidth * 0.01,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      <CloseSvg height={SIZE} width={SIZE} />
-    </TouchableOpacity>
-  );
-};

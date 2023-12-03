@@ -17,7 +17,7 @@ import {
 import {useAtom} from 'jotai';
 import React, {useEffect} from 'react';
 import {CountDownToStartText} from '../component/atom';
-import {EdiiLobbyLayout} from '../layout';
+import {EdiiLobbyLayout, GameOverLayout} from '../layout';
 
 const EdiiScreen: React.FunctionComponent = () => {
   const [startGame] = useAtom(startGameAtom);
@@ -74,6 +74,7 @@ const EdiiScreen: React.FunctionComponent = () => {
           <CountDownToStartText />
         </View>
       )}
+      <GameOverLayout />
     </GameBackground>
   );
 };

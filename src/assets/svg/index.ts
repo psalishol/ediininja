@@ -19,6 +19,10 @@ export {default as HeartSvg} from './newHeart.svg';
 export {default as AppleCutSvg} from './apple_cut.svg';
 export {default as AppleSvg} from './apple.svg';
 
+// Almond
+export {default as AlmonCutSvg} from './almond_cut.svg'
+export {default as AlmonSvg} from './almond.svg'
+
 // Banana
 export {default as BananaCutSvg} from './banana_cut.svg';
 export {default as BananaSvg} from './banana.svg';

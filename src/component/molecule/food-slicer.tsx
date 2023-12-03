@@ -32,6 +32,10 @@ const FoodSlicer: React.FunctionComponent<Props> = ({onSlice}) => {
     runOnJS(handleGameStarted)();
   });
 
+  if (sliced) {
+    return <></>;
+  }
+
   return (
     <GestureDetector gesture={gesture}>
       <Animated.View
@@ -41,8 +45,9 @@ const FoodSlicer: React.FunctionComponent<Props> = ({onSlice}) => {
           right: 0,
           left: 0,
           bottom: 0,
-          width: size(100),
+          width: size(150),
           alignSelf: 'baseline',
+          // backgroundColor: 'red',
         }}>
         {sliced && (
           <MotiView

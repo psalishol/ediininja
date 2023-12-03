@@ -1,21 +1,42 @@
-import {View, Image} from 'react-native';
+import {Image} from 'react-native';
 import {slashImg} from '../../assets/img';
-import {screenWidth, screenHeight} from '../../consts';
+import {screenWidth, screenHeight, bezierEasing} from '../../consts';
 import {lastSlicedFoodItemAtom} from '../../state';
 import {useAtomValue} from 'jotai';
 import {renderFood} from '../../util';
+import {useEffect, useState} from 'react';
+import {FoodItems} from '../../types';
+import {MotiView} from 'moti';
 
 const SlashedFruit: React.FunctionComponent = () => {
   const lastSlicedFood = useAtomValue(lastSlicedFoodItemAtom);
 
+  const [prevSliced, setPrevSliced] = useState<FoodItems>();
+  const [animate, setAnimate] = useState<boolean>(false);
+
   const ITEM_SIZE = screenHeight * 0.2;
+
+  useEffect(() => {
+    if (!prevSliced) {
+      setPrevSliced(lastSlicedFood);
+      setAnimate(true);
+    } else {
+      if (prevSliced != lastSlicedFood) {
+        setAnimate(true);
+        setPrevSliced(lastSlicedFood);
+      }
+    }
+  }, [lastSlicedFood]);
 
   if (!lastSlicedFood) {
     return <></>;
   }
 
   return (
-    <View
+    <MotiView
+      from={{scale: 1.5}}
+      animate={{scale: animate ? 1.5 : 1}}
+      transition={{type: 'timing', duration: 200, easing: bezierEasing}}
       style={{
         position: 'absolute',
         marginLeft: screenWidth * 0.152,
@@ -41,7 +62,7 @@ const SlashedFruit: React.FunctionComponent = () => {
         }}
         source={slashImg}
       />
-    </View>
+    </MotiView>
   );
 };
 

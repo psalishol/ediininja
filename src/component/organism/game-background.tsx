@@ -23,7 +23,6 @@ const GameBackground: React.FunctionComponent<Props> = ({children}) => {
     playThemeTrack();
 
     SystemNavigationBar.fullScreen();
-    SystemNavigationBar.navigationHide();
   }, []);
 
   return (

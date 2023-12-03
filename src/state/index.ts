@@ -5,7 +5,7 @@ import {PlayerLife} from '../types';
 export const gameOverAtom = atom<boolean>(false);
 
 // Start that holds value for if the game is started or not.
-export const startGameAtom = atom<boolean>(false);
+export const startGameAtom = atom<boolean>(true);
 
 export const startingGameAtom = atom<boolean>(false);
 

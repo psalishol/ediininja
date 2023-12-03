@@ -29,7 +29,11 @@ import {useAtom, useAtomValue, useSetAtom} from 'jotai';
 import SoundPlayer from 'react-native-sound-player';
 import {slashImg} from '../assets/img';
 import {useCallback, useEffect, useState} from 'react';
-import {CountDownToStartText, LobbyHighScoreText} from '../component/atom';
+import {
+  CountDownToStartText,
+  LobbyHighScoreText,
+  LobbyNinjaText,
+} from '../component/atom';
 
 const EdiiScreen: React.FunctionComponent = () => {
   const [startGame] = useAtom(startGameAtom);
@@ -134,7 +138,7 @@ const Lobby: React.FunctionComponent = () => {
           justifyContent: 'center',
           alignSelf: 'center',
         }}>
-        <ReadyToBeANinjaText />
+        <LobbyNinjaText />
 
         <StartGameApple />
 
@@ -145,24 +149,6 @@ const Lobby: React.FunctionComponent = () => {
         <LobbyHighScoreText />
       </View>
     </View>
-  );
-};
-
-const ReadyToBeANinjaText: React.FunctionComponent = () => {
-  const startingGame = useAtomValue(startingGameAtom);
-
-  return (
-    <MotiView from={{opacity: [0.8, 1, 0.7, 1]}}>
-      <Text
-        style={{
-          color: 'white',
-          textAlign: 'center',
-          fontSize: size(30),
-          fontWeight: '800',
-        }}>
-        {startingGame ? 'Starting game' : 'Ready to be a Ninja?'}
-      </Text>
-    </MotiView>
   );
 };
 

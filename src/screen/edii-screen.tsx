@@ -1,4 +1,4 @@
-import {Pressable, View} from 'react-native';
+import {View} from 'react-native';
 import {
   FoodRenderer,
   GameBackground,
@@ -40,7 +40,7 @@ const EdiiScreen: React.FunctionComponent = () => {
   return (
     <GameBackground>
       {!startGame && !gameCountdownStart && <EdiiLobbyLayout />}
-      {/* Game header */}
+
       {startGame && !gameCountdownStart && (
         <View style={{flex: 1, backgroundColor: 'red'}}>
           <MotiView

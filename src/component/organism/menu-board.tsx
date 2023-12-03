@@ -1,19 +1,26 @@
 import {useCallback} from 'react';
-import {View, Pressable} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import {RightBoardTemplate, CloseSvg} from '../../assets/svg';
 import {screenHeight, screenWidth} from '../../consts';
+import {openGameMenuAtom} from '../../state';
+import {useSetAtom} from 'jotai';
 
 const MenuBoard: React.FunctionComponent = () => {
   const BOARD_HEIGHT = screenHeight * 0.15;
   const BOARD_WIDTH = screenWidth * 0.1;
 
-  const handleOpenMenu = useCallback(() => {}, []);
+  const setOpenMenu = useSetAtom(openGameMenuAtom);
+
+  const handleOpenMenu = useCallback(() => {
+    setOpenMenu(true);
+  }, []);
 
   return (
     <View>
       <RightBoardTemplate height={BOARD_HEIGHT} width={BOARD_WIDTH} />
 
-      <Pressable
+      <TouchableOpacity
+        activeOpacity={0.8}
         onPress={handleOpenMenu}
         style={{
           position: 'absolute',
@@ -21,7 +28,7 @@ const MenuBoard: React.FunctionComponent = () => {
           borderRadius: 100,
         }}>
         <CloseSvg />
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };

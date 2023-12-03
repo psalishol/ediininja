@@ -20,8 +20,8 @@ export {default as AppleCutSvg} from './apple_cut.svg';
 export {default as AppleSvg} from './apple.svg';
 
 // Almond
-export {default as AlmonCutSvg} from './almond_cut.svg'
-export {default as AlmonSvg} from './almond.svg'
+export {default as AlmonCutSvg} from './almond_cut.svg';
+export {default as AlmonSvg} from './almond.svg';
 
 // Banana
 export {default as BananaCutSvg} from './banana_cut.svg';
@@ -154,3 +154,7 @@ export {default as GreekYoghurtSvg} from './yoghurt.svg';
 // Cottage Cheese
 export {default as CottageCheeseCutSvg} from './cottage_cheese_cut.svg';
 export {default as CottageCheeseSvg} from './cottage_cheese.svg';
+
+// Walnuts
+export {default as WalnutsCutSvg} from './walnut_cut.svg';
+export {default as WalnutsSvg} from './walnuts.svg';

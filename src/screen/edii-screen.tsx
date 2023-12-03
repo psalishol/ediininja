@@ -12,6 +12,8 @@ import {
   startingGameAtom,
   startGameAtom,
   gameCountdownStartAtom,
+  highScoreAtom,
+  currentScoreAtom,
 } from '../state';
 import {useAtom, useSetAtom} from 'jotai';
 import React, {useCallback, useEffect, useState} from 'react';
@@ -24,7 +26,7 @@ import SoundPlayer from 'react-native-sound-player';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import {runOnJS} from 'react-native-reanimated';
 import {slashImg} from '../assets/img';
-import {StartGameButton} from '../component/molecule';
+import {FoodSlicer, StartGameButton} from '../component/molecule';
 
 const EdiiScreen: React.FunctionComponent = () => {
   const [startGame] = useAtom(startGameAtom);
@@ -161,9 +163,20 @@ const ProjectedFood: React.FunctionComponent<Props> = ({
 
   const [sliced, setSliced] = useState<boolean>(false);
 
+  const [highScore, setHighScore] = useAtom(highScoreAtom);
+  const [currentScore, setCurrentScore] = useAtom(currentScoreAtom);
+
   const handleSliceFood = useCallback(() => {
     setSliced(prev => !prev);
-  }, []);
+
+    const newScore = currentScore + point;
+
+    setCurrentScore(newScore);
+
+    if (newScore > highScore) {
+      setHighScore(newScore);
+    }
+  }, [currentScore, highScore]);
 
   return (
     <FoodItemTranslationContainer
@@ -244,63 +257,8 @@ const FoodItemTranslationContainer: React.FunctionComponent<ContainerProp> = ({
       onDidAnimate={handleFinishAnimatingUp}
       transition={{type: 'timing', duration: FOOD_TRANSLATION_DURATION}}>
       {children}
-      <SliceFoodComp onSlice={onSlice} />
+      <FoodSlicer onSlice={onSlice} />
     </MotiView>
   );
 };
 
-interface SliceFoodProp {
-  onSlice?: () => void;
-}
-
-const SliceFoodComp: React.FunctionComponent<SliceFoodProp> = ({onSlice}) => {
-  const [sliced, setSliced] = useState<boolean>(false);
-  // const [startingGame, setStartingGame] = useAtom(startingGameAtom);
-
-  const handleGameStarted = async () => {
-    try {
-      onSlice && onSlice();
-
-      setSliced(true);
-
-      // play slash sound
-      SoundPlayer.playSoundFile('slash2', 'mpeg');
-    } catch (error) {
-      console.log('error cutting food', error);
-    }
-  };
-
-  const gesture = Gesture.Pan().onEnd(_e => {
-    runOnJS(handleGameStarted)();
-  });
-
-  return (
-    <GestureDetector gesture={gesture}>
-      <Animated.View
-        style={{
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          left: 0,
-          bottom: 0,
-          width: size(100),
-          // height: size(100),
-          // backgroundColor: 'red',
-          alignSelf: 'baseline',
-        }}>
-        {sliced && (
-          <MotiView
-            from={{opacity: 1, translateX: -size(20), translateY: size(20)}}
-            animate={{opacity: 0, translateX: size(50), translateY: -size(30)}}
-            style={{position: 'absolute'}}>
-            <Image
-              style={{height: size(120), width: size(120), marginTop: size(30)}}
-              resizeMode="contain"
-              source={slashImg}
-            />
-          </MotiView>
-        )}
-      </Animated.View>
-    </GestureDetector>
-  );
-};

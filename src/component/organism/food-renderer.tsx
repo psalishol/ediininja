@@ -6,7 +6,7 @@ import {FoodBuilder} from '../../types';
 import {Food} from '../molecule';
 
 const FoodRenderer: React.FunctionComponent = () => {
-  const [food, setFood] = useState<FoodBuilder[]>([]);
+  const [foods, setFood] = useState<FoodBuilder[]>([]);
 
   useEffect(() => {
     const totalFoodItemCount = foodLibrary.length;
@@ -34,8 +34,6 @@ const FoodRenderer: React.FunctionComponent = () => {
     setFood(prev => prev.filter(f => f.id === id));
   }, []);
 
-  console.log('foods', food);
-
   return (
     <View
       style={{
@@ -45,13 +43,9 @@ const FoodRenderer: React.FunctionComponent = () => {
         bottom: 0,
         left: 0,
       }}>
-      <Food
-        onFinishTranslation={removeFood}
-        food={{
-          ...foodLibrary[1],
-          id: randomID(),
-        }}
-      />
+      {foods.map((foodItem, i) => {
+        return <Food onFinishTranslation={removeFood} food={foodItem} />;
+      })}
     </View>
   );
 };

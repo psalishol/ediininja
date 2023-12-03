@@ -1,5 +1,7 @@
 import {Dimensions} from 'react-native';
-import { Easing } from 'react-native-reanimated';
+import {Easing} from 'react-native-reanimated';
+
+export * from './food';
 
 // Exports window height and width of the screen
 export const {height: screenHeight, width: screenWidth} =

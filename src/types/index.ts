@@ -39,7 +39,6 @@ export type FoodItems =
   | 'Butternut'
   | 'Salmon'
   | 'Tofu'
-  | 'Eggs'
   | 'Greek Yoghurt'
   | 'Cottage Cheese'
   | 'Almonds'

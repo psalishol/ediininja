@@ -1,4 +1,4 @@
-import {Image, Text, View} from 'react-native';
+import {Image, Pressable, Text, View} from 'react-native';
 import {
   GameBackground,
   LifeBoard,
@@ -18,16 +18,28 @@ import {
 import {MotiView, MotiText} from 'moti';
 import Animated, {runOnJS} from 'react-native-reanimated';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
-import {highScoreAtom, startingGameAtom, startGameAtom} from '../state';
+import {
+  highScoreAtom,
+  startingGameAtom,
+  startGameAtom,
+  currentScoreAtom,
+  gameCountdownStartAtom,
+} from '../state';
 import {useAtom, useAtomValue, useSetAtom} from 'jotai';
 import SoundPlayer from 'react-native-sound-player';
 import {slashImg} from '../assets/img';
-import {useEffect} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 
 const EdiiScreen: React.FunctionComponent = () => {
   const [startGame, setStartGame] = useAtom(startGameAtom);
 
   const [startingGame, setStartingGame] = useAtom(startingGameAtom);
+
+  const [gameCountdownStart, setGameCountdownStart] = useAtom(
+    gameCountdownStartAtom,
+  );
+
+  const setScore = useSetAtom(currentScoreAtom);
 
   useEffect(() => {
     if (startingGame) {
@@ -40,28 +52,109 @@ const EdiiScreen: React.FunctionComponent = () => {
 
   return (
     <GameBackground>
-      {!startGame && <Lobby />}
+      {!startGame && !gameCountdownStart && <Lobby />}
       {/* Game header */}
-      {startGame && (
-        <MotiView
-          from={{translateY: -screenHeight * 0.3}}
-          animate={{translateY: 0}}
-          transition={{damping: 300}}
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginTop: screenHeight * 0.05,
-          }}>
-          <LifeBoard />
-          <ScoreBoard />
-          <MenuBoard />
-        </MotiView>
+      {startGame && !gameCountdownStart && (
+        <View>
+          <MotiView
+            from={{translateY: -screenHeight * 0.3}}
+            animate={{translateY: 0}}
+            transition={{damping: 300}}
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginTop: screenHeight * 0.05,
+            }}>
+            <LifeBoard />
+            <ScoreBoard />
+            <MenuBoard />
+          </MotiView>
+
+          <Pressable
+            onPress={() => setScore(prev => prev + 1)}
+            style={{
+              backgroundColor: 'red',
+              height: 100,
+              width: 100,
+              alignSelf: 'center',
+              marginTop: 100,
+            }}></Pressable>
+        </View>
       )}
+
+      {!startGame && gameCountdownStart && <GameCountDown />}
     </GameBackground>
   );
 };
 
 export default EdiiScreen;
+
+const GameCountDown: React.FunctionComponent = () => {
+  return (
+    <View
+      style={{
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        left: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <CountDownText />
+    </View>
+  );
+};
+
+const CountDownText: React.FunctionComponent = () => {
+  const [count, setCount] = useState<number>(3);
+  const [animate, setAnimate] = useState<boolean>(true);
+
+  console.log('animate', animate, 'count', count);
+
+  const setStartGame = useSetAtom(startGameAtom);
+  const setGameCountingDown = useSetAtom(gameCountdownStartAtom);
+
+  const handleDidAnimate = useCallback(() => {
+    if (count == 0) {
+      setStartGame(true);
+      setGameCountingDown(false);
+    } else {
+      setAnimate(false);
+    }
+  }, [count]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setCount(2);
+      setAnimate(true);
+      setTimeout(() => {
+        setCount(1);
+        setAnimate(true);
+        setTimeout(() => {
+          setCount(0);
+          setAnimate(true);
+        }, 1500);
+      }, 1500);
+    }, 1500);
+  }, []);
+
+  return (
+    <MotiText
+      onDidAnimate={handleDidAnimate}
+      from={{scale: 1, opacity: 0}}
+      animate={{scale: animate ? 2 : 1, opacity: animate ? 1 : 0}}
+      transition={{type: 'timing', duration: 700, easing: bezierEasing}}
+      style={{
+        color: 'gold',
+        fontSize: size(40),
+        fontWeight: '600',
+        marginTop: -screenHeight * 0.05,
+      }}>
+      {count}
+    </MotiText>
+  );
+};
 
 const Lobby: React.FunctionComponent = () => {
   return (

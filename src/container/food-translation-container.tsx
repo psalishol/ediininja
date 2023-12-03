@@ -26,7 +26,7 @@ const FoodTranslationContainer: React.FunctionComponent<Props> = ({
       // TODO: remove food from projected map.
       // decrease the life, because the food was not sliced.
       console.log('finished animating');
-      //   onFinishAnimation();
+      onFinishAnimation();
     } else {
       setAnimatedUp(true);
     }

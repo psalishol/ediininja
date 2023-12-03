@@ -34,9 +34,10 @@ const SlashedFruit: React.FunctionComponent = () => {
 
   return (
     <MotiView
-      from={{scale: 1.5}}
-      animate={{scale: animate ? 1.5 : 1}}
+      from={{scale: 1.1}}
+      animate={{scale: animate ? 1.1 : 1}}
       transition={{type: 'timing', duration: 200, easing: bezierEasing}}
+      onDidAnimate={() => setAnimate(false)}
       style={{
         position: 'absolute',
         marginLeft: screenWidth * 0.152,

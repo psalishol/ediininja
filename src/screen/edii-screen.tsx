@@ -43,7 +43,10 @@ const EdiiScreen: React.FunctionComponent = () => {
       {!startGame && <Lobby />}
       {/* Game header */}
       {startGame && (
-        <View
+        <MotiView
+          from={{translateY: -screenHeight * 0.3}}
+          animate={{translateY: 0}}
+          transition={{damping: 300}}
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -52,7 +55,7 @@ const EdiiScreen: React.FunctionComponent = () => {
           <LifeBoard />
           <ScoreBoard />
           <MenuBoard />
-        </View>
+        </MotiView>
       )}
     </GameBackground>
   );

@@ -2,6 +2,7 @@ import {MotiView} from 'moti';
 import React, {useState, useCallback, memo} from 'react';
 import {FoodSlicer} from '../component/molecule';
 import {screenHeight, screenWidth} from '../consts';
+import {randomInt} from '../helper';
 
 interface Props {
   children: React.ReactNode;
@@ -25,7 +26,7 @@ const FoodTranslationContainer: React.FunctionComponent<Props> = ({
       // TODO: remove food from projected map.
       // decrease the life, because the food was not sliced.
       console.log('finished animating');
-      onFinishAnimation();
+    //   onFinishAnimation();
     } else {
       setAnimatedUp(true);
     }
@@ -33,12 +34,17 @@ const FoodTranslationContainer: React.FunctionComponent<Props> = ({
 
   console.log('animated up', animatedUp);
 
+  const initialPosition = randomInt(screenWidth * 0.7);
+  const midPosition = initialPosition + initialPosition * 0.1;
+  const finalPosition = initialPosition + initialPosition * 0.2;
+
   return (
     <MotiView
-      from={{translateY: screenHeight, translateX: 0}}
+      style={{ position: 'absolute'}}
+      from={{translateY: screenHeight, translateX: initialPosition}}
       animate={{
         translateY: animatedUp ? screenHeight : 0,
-        translateX: animatedUp ? screenWidth * 0.2 : screenWidth * 0.1,
+        translateX: animatedUp ? finalPosition : midPosition,
       }}
       onDidAnimate={handleFinishAnimatingUp}
       transition={{type: 'timing', duration: FOOD_TRANSLATION_DURATION}}>

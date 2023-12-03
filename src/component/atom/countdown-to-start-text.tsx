@@ -1,9 +1,9 @@
-import { useSetAtom } from "jotai";
-import { MotiText } from "moti";
-import { useState, useCallback, useEffect } from "react";
-import { bezierEasing, screenHeight } from "../../consts";
-import { size } from "../../helper";
-import { startGameAtom, gameCountdownStartAtom } from "../../state";
+import {useSetAtom} from 'jotai';
+import {MotiText} from 'moti';
+import {useState, useCallback, useEffect} from 'react';
+import {bezierEasing, screenHeight} from '../../consts';
+import {size} from '../../helper';
+import {startGameAtom, gameCountdownStartAtom} from '../../state';
 
 const CountDownToStartText: React.FunctionComponent = () => {
   const [count, setCount] = useState<number>(3);
@@ -48,7 +48,7 @@ const CountDownToStartText: React.FunctionComponent = () => {
         fontWeight: '600',
         marginTop: -screenHeight * 0.05,
       }}>
-      {count}
+      {count === 0 ? 'Go' : count}
     </MotiText>
   );
 };

@@ -43,7 +43,6 @@ export type FoodItems =
   | 'Cottage Cheese'
   | 'Almonds'
   | 'Walnuts'
-  | 'Oatmeal'
   | 'Whole Wheat Bread'
   | 'Pasta'
   | 'Rice Cake'

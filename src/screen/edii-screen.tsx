@@ -124,6 +124,10 @@ const FoodProjectionView: React.FunctionComponent = () => {
 
   console.log('food', food);
 
+  const removeFood = useCallback((id: string) => {
+    setFood(prev => prev.filter(f => f.id === id));
+  }, []);
+
   return (
     <View
       style={{
@@ -132,9 +136,9 @@ const FoodProjectionView: React.FunctionComponent = () => {
         right: 0,
         bottom: 0,
         left: 0,
-        // backgroundColor: 'red',
       }}>
       <ProjectedFood
+        onFinishTranslation={removeFood}
         food={{
           ...foodLibrary[1],
           id: randomID(),
@@ -146,9 +150,13 @@ const FoodProjectionView: React.FunctionComponent = () => {
 
 interface Props {
   food: FoodBuilder;
+  onFinishTranslation: (id: string) => void;
 }
 
-const ProjectedFood: React.FunctionComponent<Props> = ({food}) => {
+const ProjectedFood: React.FunctionComponent<Props> = ({
+  food,
+  onFinishTranslation,
+}) => {
   const {foodItem, id, point} = food;
 
   const [sliced, setSliced] = useState<boolean>(false);
@@ -157,50 +165,55 @@ const ProjectedFood: React.FunctionComponent<Props> = ({food}) => {
     setSliced(prev => !prev);
   }, []);
 
-  console.log('sliced', sliced);
-
   return (
-    <FoodItemRotationContainer onSlice={handleSliceFood}>
-      {renderFood(foodItem, sliced, size(100))}
-    </FoodItemRotationContainer>
+    <FoodItemTranslationContainer
+      onFinishAnimation={() => onFinishTranslation(id)}
+      onSlice={handleSliceFood}>
+      <FoodItemRotationContainer sliced={sliced}>
+        {renderFood(foodItem, sliced, size(100))}
+      </FoodItemRotationContainer>
+    </FoodItemTranslationContainer>
   );
 };
 
 interface ContainerProp {
   children: React.ReactNode;
   onSlice: () => void;
+  onFinishAnimation: () => void;
+}
+interface FoodRotationProps {
+  children: React.ReactNode;
+  sliced: boolean;
 }
 
-const FoodItemRotationContainer: React.FunctionComponent<ContainerProp> = ({
+const FoodItemRotationContainer: React.FunctionComponent<FoodRotationProps> = ({
   children,
-  onSlice,
+  sliced,
 }) => {
   return (
-    <FoodItemTranslationContainer onSlice={onSlice}>
-      <MotiView
-        from={{rotate: '0deg'}}
-        animate={{rotate: '360deg'}}
-        transition={{
-          loop: true,
-          type: 'timing',
-          duration: 2000,
-          repeatReverse: false,
-        }}
-        style={{
-          marginTop: size(40),
-          elevation: 50,
-          // backgroundColor: 'blue',
-          alignSelf: 'baseline',
-        }}>
-        {children}
-      </MotiView>
-    </FoodItemTranslationContainer>
+    <MotiView
+      from={{rotate: '0deg'}}
+      animate={{rotate: sliced ? '0deg' : '360deg'}}
+      transition={{
+        loop: true,
+        type: 'timing',
+        duration: 2000,
+        repeatReverse: false,
+      }}
+      style={{
+        marginTop: size(40),
+        elevation: 50,
+        alignSelf: 'baseline',
+      }}>
+      {children}
+    </MotiView>
   );
 };
 
 const FoodItemTranslationContainer: React.FunctionComponent<ContainerProp> = ({
   children,
   onSlice,
+  onFinishAnimation,
 }) => {
   const [animatedUp, setAnimatedUp] = useState<boolean>(false);
 
@@ -213,6 +226,7 @@ const FoodItemTranslationContainer: React.FunctionComponent<ContainerProp> = ({
       // TODO: remove food from projected map.
       // decrease the life, because the food was not sliced.
       console.log('finished animating');
+      onFinishAnimation();
     } else {
       setAnimatedUp(true);
     }

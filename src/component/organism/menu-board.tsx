@@ -4,6 +4,7 @@ import {RightBoardTemplate, CloseSvg} from '../../assets/svg';
 import {screenHeight, screenWidth} from '../../consts';
 import {openGameMenuAtom} from '../../state';
 import {useSetAtom} from 'jotai';
+import { MenuLayout } from '../../layout';
 
 const MenuBoard: React.FunctionComponent = () => {
   const BOARD_HEIGHT = screenHeight * 0.15;
@@ -29,6 +30,8 @@ const MenuBoard: React.FunctionComponent = () => {
         }}>
         <CloseSvg />
       </TouchableOpacity>
+
+      <MenuLayout />
     </View>
   );
 };

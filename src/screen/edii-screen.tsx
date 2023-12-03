@@ -1,4 +1,4 @@
-import {Image, Pressable, Text, View} from 'react-native';
+import {View} from 'react-native';
 import {
   GameBackground,
   LifeBoard,
@@ -6,37 +6,17 @@ import {
   ScoreBoard,
 } from '../component/organism';
 
-import {bezierEasing, linearEasing, screenHeight, screenWidth} from '../consts';
-import {size} from '../helper';
+import {screenHeight} from '../consts';
+import {MotiView} from 'moti';
 import {
-  AppleCutSvg,
-  AppleSvg,
-  PopoverBoardSvg,
-  PopoverEdiiSvg,
-  PopoverNinja,
-} from '../assets/svg';
-import {MotiView, MotiText} from 'moti';
-import Animated, {runOnJS} from 'react-native-reanimated';
-import {Gesture, GestureDetector} from 'react-native-gesture-handler';
-import {
-  highScoreAtom,
   startingGameAtom,
   startGameAtom,
-  currentScoreAtom,
   gameCountdownStartAtom,
 } from '../state';
-import {useAtom, useAtomValue, useSetAtom} from 'jotai';
-import SoundPlayer from 'react-native-sound-player';
-import {slashImg} from '../assets/img';
-import {useCallback, useEffect, useState} from 'react';
-import {
-  CountDownToStartText,
-  LobbyHighScoreText,
-  LobbyNinjaText,
-  SliceFruitText,
-} from '../component/atom';
-import {LobbySliceApple, StartGameButton} from '../component/molecule';
-import { EdiiLobbyLayout } from '../layout';
+import {useAtom, useSetAtom} from 'jotai';
+import {useEffect} from 'react';
+import {CountDownToStartText} from '../component/atom';
+import {EdiiLobbyLayout} from '../layout';
 
 const EdiiScreen: React.FunctionComponent = () => {
   const [startGame] = useAtom(startGameAtom);
@@ -46,8 +26,6 @@ const EdiiScreen: React.FunctionComponent = () => {
   const [gameCountdownStart, setGameCountdownStart] = useAtom(
     gameCountdownStartAtom,
   );
-
-  const setScore = useSetAtom(currentScoreAtom);
 
   useEffect(() => {
     if (startingGame) {
@@ -77,16 +55,6 @@ const EdiiScreen: React.FunctionComponent = () => {
             <ScoreBoard />
             <MenuBoard />
           </MotiView>
-
-          <Pressable
-            onPress={() => setScore(prev => prev + 1)}
-            style={{
-              backgroundColor: 'red',
-              height: 100,
-              width: 100,
-              alignSelf: 'center',
-              marginTop: 100,
-            }}></Pressable>
         </View>
       )}
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {TouchableOpacity, Text} from 'react-native';
 import {screenHeight, screenWidth} from '../../consts';
 import {size} from '../../helper';
@@ -6,8 +6,12 @@ import {size} from '../../helper';
 const QuitGameButton: React.FunctionComponent = () => {
   const BOX_HEIGHT = screenHeight * 0.1;
   const BOX_WIDTH = screenWidth * 0.3;
+
+  const handleQuitGame = useCallback(() => {}, []);
+
   return (
     <TouchableOpacity
+      onPress={handleQuitGame}
       activeOpacity={0.8}
       style={{
         position: 'absolute',

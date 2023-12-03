@@ -13,7 +13,6 @@ export type FoodItems =
   | 'French Fries'
   | 'Spinach'
   | 'Hamburger'
-  | 'Fish'
   | 'Ice Cream'
   | 'Chicken Breast'
   | 'Sandwich'

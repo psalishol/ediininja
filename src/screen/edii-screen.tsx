@@ -42,7 +42,7 @@ const EdiiScreen: React.FunctionComponent = () => {
       {!startGame && !gameCountdownStart && <EdiiLobbyLayout />}
 
       {startGame && !gameCountdownStart && (
-        <View style={{flex: 1, backgroundColor: 'red'}}>
+        <View style={{flex: 1}}>
           <MotiView
             from={{translateY: -screenHeight * 0.3}}
             animate={{translateY: 0}}

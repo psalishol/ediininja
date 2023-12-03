@@ -1,9 +1,9 @@
-import { View, Text } from "react-native";
-import { ScoreBoardTemplate } from "../../assets/svg";
-import { screenHeight, screenWidth } from "../../consts";
-import { size } from "../../helper";
-import { HighScore, CurrentScore } from "../atom";
-import { SlashedFruit, PlayerLifeDisplay } from "../molecule";
+import {View, Text} from 'react-native';
+import {ScoreBoardTemplate} from '../../assets/svg';
+import {screenHeight, screenWidth} from '../../consts';
+import {size} from '../../helper';
+import {HighScore, CurrentScore} from '../atom';
+import {LastSlicedFood, PlayerLifeDisplay} from '../molecule';
 
 const ScoreBoard: React.FunctionComponent = () => {
   const BOARD_HEIGHT = screenHeight * 0.18;
@@ -33,7 +33,7 @@ const ScoreBoard: React.FunctionComponent = () => {
         }}>
         score
       </Text>
-      <SlashedFruit />
+      <LastSlicedFood />
       <PlayerLifeDisplay />
     </View>
   );

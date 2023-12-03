@@ -44,7 +44,13 @@ const FoodRenderer: React.FunctionComponent = () => {
         left: 0,
       }}>
       {foods.map((foodItem, i) => {
-        return <Food onFinishTranslation={removeFood} food={foodItem} />;
+        return (
+          <Food
+            key={foodItem.id}
+            onFinishTranslation={removeFood}
+            food={foodItem}
+          />
+        );
       })}
     </View>
   );

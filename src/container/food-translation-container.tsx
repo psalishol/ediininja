@@ -1,12 +1,18 @@
 import {MotiView} from 'moti';
-import React, {useState, useCallback, memo} from 'react';
+import React, {useState, useCallback, memo, useEffect} from 'react';
 import {FoodSlicer} from '../component/molecule';
 import {linearEasing, screenHeight, screenWidth} from '../consts';
 import {randomInt, size} from '../helper';
 import {Text, View} from 'react-native';
 import {RedXTemplate} from '../assets/svg';
-import {gameOverAtom, playerLifeAtom} from '../state';
-import {useAtom, useSetAtom} from 'jotai';
+import {gameOverAtom, openGameMenuAtom, playerLifeAtom} from '../state';
+import {useAtom, useAtomValue, useSetAtom} from 'jotai';
+import Animated, {
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 interface Props {
   children: React.ReactNode;
@@ -24,47 +30,57 @@ const FoodTranslationContainer: React.FunctionComponent<Props> = ({
 
   const [finishedAnimating, setFinishAnimating] = useState<boolean>(false);
 
-  const setGameOver = useSetAtom(gameOverAtom);
+  const [gameOver, setGameOver] = useAtom(gameOverAtom);
+  const gamePaused = useAtomValue(openGameMenuAtom);
+
+  const initialPosition = randomInt(screenWidth * 0.7);
+  const midPosition = initialPosition + initialPosition * 0.1;
+  const finalPosition = initialPosition + initialPosition * 0.2;
+
+  const translationX = useSharedValue(initialPosition);
+  const translationY = useSharedValue(1);
 
   const [playerLife, setPlayerLife] = useAtom(playerLifeAtom);
 
-  const FOOD_TRANSLATION_DURATION = 4000; // 4secs
+  const FOOD_TRANSLATION_DURATION = randomInt(4000, 1500); // randomDuration between 2secs and 4secs
 
   const handleSlice = useCallback(() => {
     setSliced(true);
     onSlice();
   }, []);
 
-  const handleFinishAnimatingUp = useCallback(() => {
-    if (animatedUp) {
-      setFinishAnimating(true);
-      if (!sliced) {
-        if (playerLife === '1') {
-          setGameOver(true);
-        } else {
-          setPlayerLife(prev => {
-            if (prev === '3') {
-              return '2';
-            }
-            return '1';
-          });
-        }
-      } else {
-      }
+  const handleAnimatedUp = () => {
+    setAnimatedUp(true);
+  };
 
-      onFinishAnimation();
+  const handleFinishAnimatingUp = () => {
+    'worklet';
+    if (animatedUp) {
+      // setFinishAnimating(true);
+      // if (!sliced) {
+      //   if (playerLife === '1') {
+      //     setGameOver(true);
+      //   } else {
+      //     setPlayerLife(prev => {
+      //       if (prev === '3') {
+      //         return '2';
+      //       }
+      //       return '1';
+      //     });
+      //   }
+      // } else {
+      // }
+
+      runOnJS(onFinishAnimation)();
     } else {
-      setAnimatedUp(true);
+      // setAnimatedUp(true);
+      runOnJS(handleAnimatedUp)();
     }
-  }, [animatedUp, sliced]);
+  };
 
   // console.log('animated up', animatedUp);
 
   console.log('finished', finishedAnimating && !sliced);
-
-  const initialPosition = randomInt(screenWidth * 0.7);
-  const midPosition = initialPosition + initialPosition * 0.1;
-  const finalPosition = initialPosition + initialPosition * 0.2;
 
   // if (finishedAnimating && !sliced) {
   //   return (
@@ -84,26 +100,67 @@ const FoodTranslationContainer: React.FunctionComponent<Props> = ({
   //   return <></>;
   // }
 
+  useEffect(() => {
+    const translateFood = () => {
+      translationY.value = withTiming(
+        animatedUp ? 1 : 0,
+        {duration: FOOD_TRANSLATION_DURATION},
+        finished => {
+          if (finished) {
+            handleFinishAnimatingUp();
+          }
+        },
+      );
+
+      translationX.value = withTiming(
+        animatedUp ? finalPosition : midPosition,
+        {duration: FOOD_TRANSLATION_DURATION},
+      );
+    };
+
+    if (!gameOver && !gamePaused) {
+      translateFood();
+    }
+  }, [animatedUp, gameOver, gamePaused, finalPosition, midPosition]);
+
+  const rStyle = useAnimatedStyle(() => {
+    return {
+      position: 'absolute',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: 150,
+      width: 150,
+      transform: [
+        {translateX: translationX.value},
+        {translateY: translationY.value * screenHeight},
+      ],
+    };
+  }, []);
+
   return (
-    <MotiView
-      collapsable={true}
-      style={{
-        position: 'absolute',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: size(150),
-        width: size(150),
-      }}
-      from={{translateY: screenHeight, translateX: initialPosition}}
-      animate={{
-        translateY: animatedUp ? screenHeight : 0,
-        translateX: animatedUp ? finalPosition : midPosition,
-      }}
-      onDidAnimate={handleFinishAnimatingUp}
-      transition={{type: 'timing', duration: FOOD_TRANSLATION_DURATION}}>
+    <Animated.View collapsable style={rStyle}>
       {children}
       <FoodSlicer onSlice={handleSlice} />
-    </MotiView>
+    </Animated.View>
+    // <MotiView
+    //   collapsable={true}
+    //   style={{
+    //     position: 'absolute',
+    //     justifyContent: 'center',
+    //     alignItems: 'center',
+    //     height: size(150),
+    //     width: size(150),
+    //   }}
+    //   from={{translateY: screenHeight, translateX: initialPosition}}
+    //   animate={{
+    //     translateY: animatedUp ? screenHeight : 0,
+    //     translateX: animatedUp ? finalPosition : midPosition,
+    //   }}
+    //   onDidAnimate={handleFinishAnimatingUp}
+    //   transition={{type: 'timing', duration: FOOD_TRANSLATION_DURATION}}>
+    //   {children}
+    //   <FoodSlicer onSlice={handleSlice} />
+    // </MotiView>
   );
 };
 

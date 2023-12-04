@@ -2,12 +2,18 @@ import {TouchableOpacity, Text} from 'react-native';
 import {screenHeight, screenWidth} from '../../consts';
 import {size} from '../../helper';
 import {useCallback} from 'react';
+import {openGameMenuAtom} from '../../state';
+import {useSetAtom} from 'jotai';
 
 const ResumeGameButton: React.FunctionComponent = () => {
   const BOX_HEIGHT = screenHeight * 0.1;
   const BOX_WIDTH = screenWidth * 0.3;
 
-  const handleResumeGame = useCallback(() => {}, []);
+  const setOpenGameMenu = useSetAtom(openGameMenuAtom);
+
+  const handleResumeGame = useCallback(() => {
+    setOpenGameMenu(false);
+  }, []);
 
   return (
     <TouchableOpacity

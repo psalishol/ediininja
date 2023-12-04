@@ -1,7 +1,7 @@
 import {View} from 'react-native';
-import {useState, useCallback, useEffect} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {foodLibrary} from '../../consts';
-import {randomID, randomInt, size} from '../../helper';
+import {randomID, randomInt} from '../../helper';
 import {FoodBuilder} from '../../types';
 import {Food} from '../molecule';
 import {gameOverAtom, openGameMenuAtom} from '../../state';
@@ -10,12 +10,30 @@ import {useAtomValue} from 'jotai';
 const FoodRenderer: React.FunctionComponent = () => {
   const [foods, setFood] = useState<FoodBuilder[]>([]);
 
+  // the food normally is added at interval of 5secs at the start of the game
+  const INITIAL_INTERVAL_DURATION = 5000;
+
+  const [intervalDuration, setIntervalDuration] = useState<number>(
+    INITIAL_INTERVAL_DURATION,
+  );
+
   const gameOver = useAtomValue(gameOverAtom);
   const openedGameMenu = useAtomValue(openGameMenuAtom);
 
   const gamePaused = gameOver || openedGameMenu;
 
-  const NEW_FOOD_BATCH_DURATION = 3500; // add new food at the interval of 3.5 sec
+  useEffect(() => {
+    const INTERVAL_AFTER_ONE_MINUTE = 4000;
+    const INTERVAL_AFTER_TWO_MINUTE = 2500;
+    setTimeout(() => {
+      // decrease the interval to 4secs after 1 minsof playing
+      setIntervalDuration(INTERVAL_AFTER_ONE_MINUTE);
+      setTimeout(() => {
+        // decrease the interval to 2.5secs after 2 mins of playing
+        setIntervalDuration(INTERVAL_AFTER_TWO_MINUTE);
+      }, 120000);
+    }, 60000);
+  }, []);
 
   useEffect(() => {
     const totalFoodItemCount = foodLibrary.length;
@@ -35,11 +53,11 @@ const FoodRenderer: React.FunctionComponent = () => {
         setFood(prev => [...prev, ...foodBuilder]);
       }
 
-      setTimeout(addFoodBatch, NEW_FOOD_BATCH_DURATION);
+      setTimeout(addFoodBatch, intervalDuration);
     };
 
     addFoodBatch();
-  }, [gamePaused]);
+  }, [gamePaused, intervalDuration]);
 
   const removeFood = useCallback((id: string) => {
     setFood(prev => prev.filter(f => f.id !== id));

@@ -1,4 +1,4 @@
-import {Pressable, View} from 'react-native';
+import {View} from 'react-native';
 import {useState, useCallback, useEffect} from 'react';
 import {foodLibrary} from '../../consts';
 import {randomID, randomInt, size} from '../../helper';
@@ -32,28 +32,6 @@ const FoodRenderer: React.FunctionComponent = () => {
     return () => {};
   }, []);
 
-  // useEffect(() => {
-  //   const totalFoodItemCount = foodLibrary.length;
-
-  //   const interval = setInterval(() => {
-  //     let foodBuilder: FoodBuilder[] = [];
-
-  //     for (let i = 0; i < randomInt(4); i++) {
-  //       const randFood: FoodBuilder = {
-  //         ...foodLibrary[randomInt(totalFoodItemCount)],
-  //         id: randomID(),
-  //       };
-  //       foodBuilder.push(randFood);
-  //     }
-
-  //     setFood(prev => [...prev, ...foodBuilder]);
-  //   }, 3500);
-
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, []);
-
   const removeFood = useCallback((id: string) => {
     setFood(prev => prev.filter(f => f.id !== id));
   }, []);
@@ -76,10 +54,6 @@ const FoodRenderer: React.FunctionComponent = () => {
           />
         );
       })}
-      {/* <Food
-        onFinishTranslation={() => {}}
-        food={{...foodLibrary[0], id: '1'}}
-      /> */}
     </View>
   );
 };

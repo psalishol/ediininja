@@ -1,5 +1,5 @@
 import {MotiView} from 'moti';
-import {memo, useState} from 'react';
+import {memo, useCallback, useState} from 'react';
 import {Image} from 'react-native';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import {runOnJS} from 'react-native-reanimated';
@@ -14,15 +14,22 @@ interface Props {
 
 const FoodSlicer: React.FunctionComponent<Props> = ({onSlice}) => {
   const [sliced, setSliced] = useState<boolean>(false);
+  const [animated, setAnimated] = useState<boolean>(false);
+
+  const handleSetBladeAnimated = useCallback(() => {
+    setAnimated(false);
+  }, []);
 
   const handleSliceFood = async () => {
     try {
-      onSlice && onSlice();
+      if (!(sliced || animated)) {
+        onSlice && onSlice();
 
-      setSliced(true);
+        setSliced(true);
 
-      // play slash sound
-      SoundPlayer.playSoundFile('slash2', 'mpeg');
+        // play slash sound
+        SoundPlayer.playSoundFile('slash2', 'mpeg');
+      }
     } catch (error) {
       console.log('error cutting food', error);
     }
@@ -31,6 +38,10 @@ const FoodSlicer: React.FunctionComponent<Props> = ({onSlice}) => {
   const gesture = Gesture.Pan().onEnd(_e => {
     runOnJS(handleSliceFood)();
   });
+
+  if (animated) {
+    return <></>;
+  }
 
   return (
     <GestureDetector gesture={gesture}>
@@ -45,6 +56,7 @@ const FoodSlicer: React.FunctionComponent<Props> = ({onSlice}) => {
         }}>
         {sliced && (
           <MotiView
+            onDidAnimate={handleSetBladeAnimated}
             from={{opacity: 1, translateX: -size(20), translateY: size(20)}}
             animate={{
               opacity: 0,

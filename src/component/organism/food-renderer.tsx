@@ -2,7 +2,7 @@ import {View} from 'react-native';
 import React, {useState, useCallback, useEffect} from 'react';
 import {foodLibrary} from '../../consts';
 import {randomID, randomInt} from '../../helper';
-import {FoodBuilder} from '../../types';
+import {FoodBuilder, FoodItems} from '../../types';
 import {Food} from '../molecule';
 import {gameOverAtom, openGameMenuAtom} from '../../state';
 import {useAtomValue} from 'jotai';
@@ -20,8 +20,6 @@ const FoodRenderer: React.FunctionComponent = () => {
   const gameOver = useAtomValue(gameOverAtom);
   const openedGameMenu = useAtomValue(openGameMenuAtom);
 
-  const gamePaused = gameOver || openedGameMenu;
-
   useEffect(() => {
     const INTERVAL_AFTER_ONE_MINUTE = 4000;
     const INTERVAL_AFTER_TWO_MINUTE = 2500;
@@ -38,10 +36,16 @@ const FoodRenderer: React.FunctionComponent = () => {
   useEffect(() => {
     const totalFoodItemCount = foodLibrary.length;
 
-    const addFoodBatch = () => {
-      if (!gamePaused) {
-        let foodBuilder: FoodBuilder[] = [];
+    const addFoodBatch = (
+      gamePaused: boolean,
+      duration: number,
+      onBuiltFood: (food: FoodBuilder[]) => void,
+    ) => {
+      let foodBuilder: FoodBuilder[] = [];
 
+      if (gamePaused) {
+        // Do nothing
+      } else {
         for (let i = 0; i < randomInt(4); i++) {
           const randFood: FoodBuilder = {
             ...foodLibrary[randomInt(totalFoodItemCount)],
@@ -49,15 +53,21 @@ const FoodRenderer: React.FunctionComponent = () => {
           };
           foodBuilder.push(randFood);
         }
-
-        setFood(prev => [...prev, ...foodBuilder]);
       }
 
-      setTimeout(addFoodBatch, intervalDuration);
+      onBuiltFood(foodBuilder);
+
+      setTimeout(() => {
+        addFoodBatch(gamePaused, duration, onBuiltFood);
+      }, duration);
     };
 
-    addFoodBatch();
-  }, [gamePaused, intervalDuration]);
+    const paused = gameOver || openedGameMenu;
+
+    addFoodBatch(paused, intervalDuration, builtFood => {
+      setFood(prev => [...prev, ...builtFood]);
+    });
+  }, [gameOver, openedGameMenu, intervalDuration]);
 
   const removeFood = useCallback((id: string) => {
     setFood(prev => prev.filter(f => f.id !== id));

@@ -4,3 +4,4 @@ export {default as CountDownToStartText} from './countdown-to-start-text';
 export {default as LobbyHighScoreText} from './lobby-high-score-text';
 export {default as LobbyNinjaText} from './lobby-ninja-text';
 export {default as SliceFruitText} from './slice-fruit-text';
+export {default as SlicedFoodPointText} from './slice-food-point-text';

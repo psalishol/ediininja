@@ -23,6 +23,7 @@ export const lastSlicedFoodItemAtom = atom<FoodItems | undefined>(undefined);
 
 export const resetGameAtom = atom(null, (_get, set) => {
   set(openGameMenuAtom, false);
+  set(gameOverAtom, false);
   set(startGameAtom, false);
   set(currentScoreAtom, 0);
   set(playerLifeAtom, '3');

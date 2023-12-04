@@ -1,6 +1,12 @@
-import {MotiView} from 'moti';
-import React, {memo} from 'react';
-import {size} from '../helper';
+import React, {memo, useEffect} from 'react';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
+import {gameOverAtom, openGameMenuAtom} from '../state';
+import {useAtomValue} from 'jotai';
 
 interface Props {
   children: React.ReactNode;
@@ -11,24 +17,34 @@ const FoodRotationContainer: React.FunctionComponent<Props> = ({
   children,
   sliced,
 }) => {
-  return (
-    <MotiView
-      from={{rotate: '0deg'}}
-      animate={{rotate: sliced ? '0deg' : '360deg'}}
-      transition={{
-        loop: true,
-        type: 'timing',
-        duration: 2000,
-        repeatReverse: false,
-      }}
-      style={{
-        marginTop: size(40),
-        elevation: 50,
-        alignSelf: 'baseline',
-      }}>
-      {children}
-    </MotiView>
-  );
+  const gameOver = useAtomValue(gameOverAtom);
+  const gamePaused = useAtomValue(openGameMenuAtom);
+
+  const rotation = useSharedValue(0);
+
+  useEffect(() => {
+    // rotateFood indefinitely rotates the food
+    const rotateFood = () => {
+      'worklet';
+      rotation.value = withRepeat(withTiming(1, {duration: 2000}), -1);
+    };
+
+    // stop rotating food if game over or menu opened or maybe the food is sliced
+    if (!gameOver && !gamePaused && !sliced) {
+      rotateFood();
+    }
+  }, [gameOver, gamePaused, sliced]);
+
+  const rStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{rotate: `${rotation.value * 360}deg`}],
+      marginTop: 40,
+      elevation: 50,
+      alignSelf: 'baseline',
+    };
+  }, []);
+
+  return <Animated.View style={rStyle}>{children}</Animated.View>;
 };
 
 export default memo<Props>(FoodRotationContainer);

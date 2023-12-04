@@ -20,3 +20,10 @@ export const playerLifeAtom = atom<PlayerLife>('3');
 export const openGameMenuAtom = atom<boolean>(false);
 
 export const lastSlicedFoodItemAtom = atom<FoodItems | undefined>(undefined);
+
+export const resetGameAtom = atom(null, (_get, set) => {
+  set(startGameAtom, true);
+  set(currentScoreAtom, 0);
+  set(playerLifeAtom, '3');
+  set(lastSlicedFoodItemAtom, undefined);
+});

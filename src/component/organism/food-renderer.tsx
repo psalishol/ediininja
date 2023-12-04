@@ -20,8 +20,6 @@ const FoodRenderer: React.FunctionComponent = () => {
   const gameOver = useAtomValue(gameOverAtom);
   const openedGameMenu = useAtomValue(openGameMenuAtom);
 
-  console.log('gameover', gameOver, 'opened meny', openedGameMenu);
-
   useEffect(() => {
     const INTERVAL_AFTER_ONE_MINUTE = 4000;
     const INTERVAL_AFTER_TWO_MINUTE = 2500;
@@ -50,7 +48,6 @@ const FoodRenderer: React.FunctionComponent = () => {
           id: randomID(),
         };
         foodBuilder.push(randFood);
-        console.log('pushed one food', i, foodCount - 1);
       }
 
       return foodBuilder;
@@ -59,12 +56,10 @@ const FoodRenderer: React.FunctionComponent = () => {
     const gamePaused = gameOver || openedGameMenu;
 
     if (gamePaused) {
-      console.log('game paused');
       if (interval) {
         clearInterval(interval);
       }
     } else {
-      console.log('game resumed');
       interval = setInterval(() => {
         const builtFood = addFoodBatch();
         setFood(prev => [...prev, ...builtFood]);

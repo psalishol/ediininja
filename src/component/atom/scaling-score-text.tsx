@@ -18,14 +18,11 @@ const ScalingScoreText: React.FunctionComponent<Props> = ({value}) => {
       setAnimate(true);
     } else {
       if (prevVal != value) {
-        console.log('trying to animate');
         setAnimate(true);
         setPrevVal(value);
       }
     }
   }, [value]);
-
-  console.log(prevVal, animate);
 
   return (
     <MotiText

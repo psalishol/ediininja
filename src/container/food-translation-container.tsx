@@ -1,12 +1,9 @@
-import {MotiView, MotiText} from 'moti';
 import React, {useState, useCallback, memo, useEffect} from 'react';
 import {FoodSlicer} from '../component/molecule';
-import {linearEasing, screenHeight, screenWidth} from '../consts';
-import {randomInt, size} from '../helper';
-import {Text, View} from 'react-native';
-import {RedXTemplate} from '../assets/svg';
+import {screenHeight, screenWidth} from '../consts';
+import {randomInt} from '../helper';
 import {gameOverAtom, openGameMenuAtom, playerLifeAtom} from '../state';
-import {useAtom, useAtomValue, useSetAtom} from 'jotai';
+import {useAtom, useAtomValue} from 'jotai';
 import Animated, {
   runOnJS,
   useAnimatedStyle,
@@ -14,6 +11,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {SlicedFoodPointText} from '../component/atom';
+import SoundPlayer from 'react-native-sound-player';
 
 interface Props {
   children: React.ReactNode;
@@ -30,8 +28,6 @@ const FoodTranslationContainer: React.FunctionComponent<Props> = ({
 }) => {
   const [animatedUp, setAnimatedUp] = useState<boolean>(false);
   const [sliced, setSliced] = useState<boolean>(false);
-
-  const [finishedAnimating, setFinishAnimating] = useState<boolean>(false);
 
   const [gameOver, setGameOver] = useAtom(gameOverAtom);
   const gamePaused = useAtomValue(openGameMenuAtom);
@@ -56,48 +52,36 @@ const FoodTranslationContainer: React.FunctionComponent<Props> = ({
     setAnimatedUp(true);
   };
 
-  const handleFinishAnimatingUp = () => {
-    'worklet';
-    if (animatedUp) {
-      // setFinishAnimating(true);
-      // if (!sliced) {
-      //   if (playerLife === '1') {
-      //     setGameOver(true);
-      //   } else {
-      //     setPlayerLife(prev => {
-      //       if (prev === '3') {
-      //         return '2';
-      //       }
-      //       return '1';
-      //     });
-      //   }
-      // } else {
-      // }
+  const onFinishedTranslation = async () => {
+    try {
+      if (!sliced) {
+        if (playerLife === '1') {
+          setGameOver(true);
 
-      runOnJS(onFinishAnimation)();
-    } else {
-      // setAnimatedUp(true);
-      runOnJS(handleAnimatedUp)();
+          SoundPlayer.playSoundFile('gameover2', 'mp3');
+        } else {
+          setPlayerLife(prev => {
+            if (prev === '3') {
+              return '2';
+            }
+            return '1';
+          });
+        }
+      }
+    } catch (error) {
+      console.log('some error occured', error);
     }
   };
 
-  // if (finishedAnimating && !sliced) {
-  //   return (
-  //     <MotiView
-  //     // from={{opacity: 1, translateY: 0}}
-  //     // animate={{opacity: 0, translateY: -size(100)}}
-  //     // transition={{type: 'timing', duration: 1000, easing: linearEasing}}
-  //     // style={{position: 'absolute'}}
-  //     >
-  //       {/* <RedXTemplate height={size(40)} width={size(40)} /> */}
-  //       <RedXTemplate />
-  //     </MotiView>
-  //   );
-  // }
-
-  // if (finishedAnimating && sliced) {
-  //   return <></>;
-  // }
+  const handleFinishAnimatingUp = () => {
+    'worklet';
+    if (animatedUp) {
+      runOnJS(onFinishedTranslation)();
+      runOnJS(onFinishAnimation)();
+    } else {
+      runOnJS(handleAnimatedUp)();
+    }
+  };
 
   useEffect(() => {
     const translateY = withTiming(

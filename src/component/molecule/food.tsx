@@ -26,7 +26,7 @@ const Food: React.FunctionComponent<Props> = ({food, onFinishTranslation}) => {
   const [currentScore, setCurrentScore] = useAtom(currentScoreAtom);
 
   const handleSliceFood = useCallback(() => {
-    setSliced(prev => !prev);
+    setSliced(true);
 
     const newScore = currentScore + point;
 

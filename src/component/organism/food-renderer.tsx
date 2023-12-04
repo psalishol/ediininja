@@ -20,6 +20,8 @@ const FoodRenderer: React.FunctionComponent = () => {
   const gameOver = useAtomValue(gameOverAtom);
   const openedGameMenu = useAtomValue(openGameMenuAtom);
 
+  console.log('gameover', gameOver, 'opened meny', openedGameMenu);
+
   useEffect(() => {
     const INTERVAL_AFTER_ONE_MINUTE = 4000;
     const INTERVAL_AFTER_TWO_MINUTE = 2500;
@@ -34,39 +36,46 @@ const FoodRenderer: React.FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+
     const totalFoodItemCount = foodLibrary.length;
 
-    const addFoodBatch = (
-      gamePaused: boolean,
-      duration: number,
-      onBuiltFood: (food: FoodBuilder[]) => void,
-    ) => {
+    const addFoodBatch = (): FoodBuilder[] => {
       let foodBuilder: FoodBuilder[] = [];
 
-      if (gamePaused) {
-        // Do nothing
-      } else {
-        for (let i = 0; i < randomInt(4); i++) {
-          const randFood: FoodBuilder = {
-            ...foodLibrary[randomInt(totalFoodItemCount)],
-            id: randomID(),
-          };
-          foodBuilder.push(randFood);
-        }
+      const foodCount = randomInt(4);
+      for (let i = 0; i < foodCount; i++) {
+        const randFood: FoodBuilder = {
+          ...foodLibrary[randomInt(totalFoodItemCount)],
+          id: randomID(),
+        };
+        foodBuilder.push(randFood);
+        console.log('pushed one food', i, foodCount - 1);
       }
 
-      onBuiltFood(foodBuilder);
-
-      setTimeout(() => {
-        addFoodBatch(gamePaused, duration, onBuiltFood);
-      }, duration);
+      return foodBuilder;
     };
 
-    const paused = gameOver || openedGameMenu;
+    const gamePaused = gameOver || openedGameMenu;
 
-    addFoodBatch(paused, intervalDuration, builtFood => {
-      setFood(prev => [...prev, ...builtFood]);
-    });
+    if (gamePaused) {
+      console.log('game paused');
+      if (interval) {
+        clearInterval(interval);
+      }
+    } else {
+      console.log('game resumed');
+      interval = setInterval(() => {
+        const builtFood = addFoodBatch();
+        setFood(prev => [...prev, ...builtFood]);
+      }, intervalDuration);
+    }
+
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
   }, [gameOver, openedGameMenu, intervalDuration]);
 
   const removeFood = useCallback((id: string) => {

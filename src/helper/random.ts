@@ -7,6 +7,6 @@ export const randomID = (): string => {
 };
 
 // randomInt generates a random number between 0 and the max number.
-export const randomInt = (max: number): number => {
-  return Math.floor(Math.random() * max);
+export const randomInt = (max: number, min?: number): number => {
+  return min ?? 0 + Math.floor(Math.random() * max);
 };

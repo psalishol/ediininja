@@ -4,7 +4,8 @@ import {RightBoardTemplate, CloseSvg} from '../../assets/svg';
 import {screenHeight, screenWidth} from '../../consts';
 import {openGameMenuAtom} from '../../state';
 import {useSetAtom} from 'jotai';
-import { MenuLayout } from '../../layout';
+import {MenuLayout} from '../../layout';
+import SoundPlayer from 'react-native-sound-player';
 
 const MenuBoard: React.FunctionComponent = () => {
   const BOARD_HEIGHT = screenHeight * 0.15;
@@ -12,8 +13,12 @@ const MenuBoard: React.FunctionComponent = () => {
 
   const setOpenMenu = useSetAtom(openGameMenuAtom);
 
-  const handleOpenMenu = useCallback(() => {
-    setOpenMenu(true);
+  const handleOpenMenu = useCallback(async () => {
+    try {
+      setOpenMenu(true);
+
+      SoundPlayer.playSoundFile('click1', 'mpg');
+    } catch (error) {}
   }, []);
 
   return (

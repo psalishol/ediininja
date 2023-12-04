@@ -13,7 +13,7 @@ const CloseGameMenuButton: React.FunctionComponent = () => {
 
   const handleCloseMenu = useCallback(async () => {
     try {
-      setOpenMenu(true);
+      setOpenMenu(false);
 
       SoundPlayer.playSoundFile('click1', 'mpg');
     } catch (error) {}

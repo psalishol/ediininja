@@ -4,6 +4,7 @@ import {size} from '../../helper';
 import {useCallback} from 'react';
 import {openGameMenuAtom} from '../../state';
 import {useSetAtom} from 'jotai';
+import SoundPlayer from 'react-native-sound-player';
 
 const ResumeGameButton: React.FunctionComponent = () => {
   const BOX_HEIGHT = screenHeight * 0.1;
@@ -13,6 +14,8 @@ const ResumeGameButton: React.FunctionComponent = () => {
 
   const handleResumeGame = useCallback(() => {
     setOpenGameMenu(false);
+
+    SoundPlayer.playSoundFile('click2', 'mpg');
   }, []);
 
   return (

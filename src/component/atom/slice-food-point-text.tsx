@@ -7,7 +7,7 @@ interface Props {
   point: number;
 }
 
-const SlicedFoodPointText: React.FunctionComponent<Props> = () => {
+const SlicedFoodPointText: React.FunctionComponent<Props> = ({point}) => {
   const [animated, setAnimated] = useState<boolean>(false);
 
   const handleAnimated = useCallback(() => {
@@ -25,7 +25,7 @@ const SlicedFoodPointText: React.FunctionComponent<Props> = () => {
       animate={{translateY: 0, opacity: 1}}
       transition={{type: 'timing', duration: 1000, easing: linearEasing}}
       style={{color: 'white', position: 'absolute', fontSize: size(30)}}>
-      +5
+      +{point}
     </MotiText>
   );
 };

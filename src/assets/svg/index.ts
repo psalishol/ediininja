@@ -129,7 +129,7 @@ export {default as CauliflowerSvg} from './cauliflower.svg';
 
 // Zucchini
 export {default as ZucchiniCutSvg} from './zucchini_cut.svg';
-export {default as ZucchiniSvg} from './zucchini_cut.svg';
+export {default as ZucchiniSvg} from './zucchini.svg';
 
 // Sweet Potato
 export {default as SweetPotatoCutSvg} from './sweet_potato_cut.svg';

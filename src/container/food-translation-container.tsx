@@ -1,4 +1,4 @@
-import {MotiView} from 'moti';
+import {MotiView, MotiText} from 'moti';
 import React, {useState, useCallback, memo, useEffect} from 'react';
 import {FoodSlicer} from '../component/molecule';
 import {linearEasing, screenHeight, screenWidth} from '../consts';
@@ -13,17 +13,20 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import {SlicedFoodPointText} from '../component/atom';
 
 interface Props {
   children: React.ReactNode;
   onSlice: () => void;
   onFinishAnimation: () => void;
+  point: number;
 }
 
 const FoodTranslationContainer: React.FunctionComponent<Props> = ({
   children,
   onSlice,
   onFinishAnimation,
+  point,
 }) => {
   const [animatedUp, setAnimatedUp] = useState<boolean>(false);
   const [sliced, setSliced] = useState<boolean>(false);
@@ -137,6 +140,7 @@ const FoodTranslationContainer: React.FunctionComponent<Props> = ({
     <Animated.View collapsable style={rStyle}>
       {children}
       <FoodSlicer onSlice={handleSlice} />
+      {sliced && <SlicedFoodPointText point={point} />}
     </Animated.View>
   );
 };

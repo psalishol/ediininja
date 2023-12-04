@@ -42,7 +42,7 @@ const FoodTranslationContainer: React.FunctionComponent<Props> = ({
 
   const [playerLife, setPlayerLife] = useAtom(playerLifeAtom);
 
-  const FOOD_TRANSLATION_DURATION = randomInt(4000, 1500); // randomDuration between 2secs and 4secs
+  const FOOD_TRANSLATION_DURATION = randomInt(4000, 3000); // randomDuration between 2secs and 4secs
 
   const handleSlice = useCallback(() => {
     setSliced(true);
@@ -78,10 +78,6 @@ const FoodTranslationContainer: React.FunctionComponent<Props> = ({
     }
   };
 
-  // console.log('animated up', animatedUp);
-
-  console.log('finished', finishedAnimating && !sliced);
-
   // if (finishedAnimating && !sliced) {
   //   return (
   //     <MotiView
@@ -101,25 +97,25 @@ const FoodTranslationContainer: React.FunctionComponent<Props> = ({
   // }
 
   useEffect(() => {
-    const translateFood = () => {
-      translationY.value = withTiming(
-        animatedUp ? 1 : 0,
-        {duration: FOOD_TRANSLATION_DURATION},
-        finished => {
-          if (finished) {
-            handleFinishAnimatingUp();
-          }
-        },
-      );
+    const translateY = withTiming(
+      animatedUp ? 1 : 0,
+      {duration: FOOD_TRANSLATION_DURATION},
+      finished => {
+        if (finished) {
+          handleFinishAnimatingUp();
+        }
+      },
+    );
 
-      translationX.value = withTiming(
-        animatedUp ? finalPosition : midPosition,
-        {duration: FOOD_TRANSLATION_DURATION},
-      );
-    };
+    const translateX = withTiming(animatedUp ? finalPosition : midPosition, {
+      duration: FOOD_TRANSLATION_DURATION,
+    });
 
-    if (!gameOver && !gamePaused) {
-      translateFood();
+    const pauseTranslation = gameOver || gamePaused;
+
+    if (!pauseTranslation) {
+      translationY.value = translateY;
+      translationX.value = translateX;
     }
   }, [animatedUp, gameOver, gamePaused, finalPosition, midPosition]);
 
@@ -142,25 +138,6 @@ const FoodTranslationContainer: React.FunctionComponent<Props> = ({
       {children}
       <FoodSlicer onSlice={handleSlice} />
     </Animated.View>
-    // <MotiView
-    //   collapsable={true}
-    //   style={{
-    //     position: 'absolute',
-    //     justifyContent: 'center',
-    //     alignItems: 'center',
-    //     height: size(150),
-    //     width: size(150),
-    //   }}
-    //   from={{translateY: screenHeight, translateX: initialPosition}}
-    //   animate={{
-    //     translateY: animatedUp ? screenHeight : 0,
-    //     translateX: animatedUp ? finalPosition : midPosition,
-    //   }}
-    //   onDidAnimate={handleFinishAnimatingUp}
-    //   transition={{type: 'timing', duration: FOOD_TRANSLATION_DURATION}}>
-    //   {children}
-    //   <FoodSlicer onSlice={handleSlice} />
-    // </MotiView>
   );
 };
 

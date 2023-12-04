@@ -1,11 +1,15 @@
-import {Text, TouchableOpacity, View} from 'react-native';
-import {Liftview, QuitGameButton, ResumeGameButton} from '../component/molecule';
-import {CloseSvg, PopoverBoardSvg, PopoverNinja} from '../assets/svg';
+import {Text, View} from 'react-native';
+import {
+  CloseGameMenuButton,
+  Liftview,
+  QuitGameButton,
+  ResumeGameButton,
+} from '../component/molecule';
+import {PopoverBoardSvg, PopoverNinja} from '../assets/svg';
 import {screenHeight, screenWidth} from '../consts';
 import {MotiView} from 'moti';
 import {openGameMenuAtom} from '../state';
-import {useAtomValue, useSetAtom} from 'jotai';
-import {useCallback} from 'react';
+import {useAtomValue} from 'jotai';
 import {size} from '../helper';
 
 const MenuLayout: React.FunctionComponent = () => {
@@ -57,7 +61,7 @@ const MenuLayout: React.FunctionComponent = () => {
                 </Text>
               </View>
 
-              <CloseMenuButton />
+              <CloseGameMenuButton />
 
               <View
                 style={{
@@ -80,34 +84,3 @@ const MenuLayout: React.FunctionComponent = () => {
 };
 
 export default MenuLayout;
-
-
-
-
-const CloseMenuButton: React.FunctionComponent = () => {
-  const SIZE = screenHeight * 0.15;
-
-  const setOpenMenu = useSetAtom(openGameMenuAtom);
-
-  const handleCloseMenu = useCallback(() => {
-    setOpenMenu(false);
-  }, []);
-
-  return (
-    <TouchableOpacity
-      onPress={handleCloseMenu}
-      activeOpacity={0.8}
-      style={{
-        height: SIZE * 0.8,
-        width: SIZE * 0.8,
-        position: 'absolute',
-        right: 0,
-        marginTop: screenHeight * 0.09,
-        marginRight: -screenWidth * 0.01,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      <CloseSvg height={SIZE} width={SIZE} />
-    </TouchableOpacity>
-  );
-};

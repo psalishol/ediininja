@@ -24,14 +24,16 @@ const FoodRotationContainer: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     // rotateFood indefinitely rotates the food
-    const rotateFood = () => {
-      'worklet';
-      rotation.value = withRepeat(withTiming(1, {duration: 2000}), -1);
-    };
+    const _rotation = withRepeat(withTiming(1, {duration: 2000}), 0);
+    const _stopRotationAnim = withTiming(rotation.value, {duration: 2000});
+
+    const ceaseRotation = gameOver || gamePaused || sliced;
 
     // stop rotating food if game over or menu opened or maybe the food is sliced
-    if (!gameOver && !gamePaused && !sliced) {
-      rotateFood();
+    if (!ceaseRotation) {
+      rotation.value = _rotation;
+    } else {
+      rotation.value = _stopRotationAnim;
     }
   }, [gameOver, gamePaused, sliced]);
 

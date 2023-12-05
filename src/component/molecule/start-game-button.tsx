@@ -1,12 +1,15 @@
 import {useAtom} from 'jotai';
 import {MotiView} from 'moti';
-import {Animated, Image} from 'react-native';
+import {Image, Pressable} from 'react-native';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import {runOnJS} from 'react-native-reanimated';
 import SoundPlayer from 'react-native-sound-player';
 import {slashImg} from '../../assets/img';
 import {size} from '../../helper';
 import {startingGameAtom} from '../../state';
+import Animated from 'react-native-reanimated';
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 const StartGameButton: React.FunctionComponent = () => {
   const [startingGame, setStartingGame] = useAtom(startingGameAtom);
@@ -25,12 +28,15 @@ const StartGameButton: React.FunctionComponent = () => {
     runOnJS(handleGameStarted)();
   });
 
+  const BUTTON_SIZE = size(220);
+
   return (
     <GestureDetector gesture={gesture}>
-      <Animated.View
+      <AnimatedPressable
+        onPress={handleGameStarted}
         style={{
-          height: size(140),
-          width: size(140),
+          height: BUTTON_SIZE,
+          width: BUTTON_SIZE,
           position: 'absolute',
           alignSelf: 'center',
           justifyContent: 'center',
@@ -48,7 +54,7 @@ const StartGameButton: React.FunctionComponent = () => {
             />
           </MotiView>
         )}
-      </Animated.View>
+      </AnimatedPressable>
     </GestureDetector>
   );
 };

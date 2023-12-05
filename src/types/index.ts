@@ -1,6 +1,6 @@
 // Player life defines the number of life the player has left.
 // The max life is (3)
-export type PlayerLife = '1' | '2' | '3';
+export type PlayerLife = '0' | '1' | '2' | '3';
 
 // FoodBuilder defines the interface for the food translated on and off the screen
 export interface FoodBuilder {

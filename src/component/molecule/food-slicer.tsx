@@ -1,6 +1,6 @@
 import {MotiView} from 'moti';
 import {memo, useCallback, useState} from 'react';
-import {Image} from 'react-native';
+import {Image, Pressable} from 'react-native';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import {runOnJS} from 'react-native-reanimated';
 import SoundPlayer from 'react-native-sound-player';
@@ -12,9 +12,13 @@ interface Props {
   onSlice?: () => void;
 }
 
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
 const FoodSlicer: React.FunctionComponent<Props> = ({onSlice}) => {
   const [sliced, setSliced] = useState<boolean>(false);
   const [animated, setAnimated] = useState<boolean>(false);
+
+  const SLICER_SIZE = size(200);
 
   const handleSetBladeAnimated = useCallback(() => {
     setAnimated(false);
@@ -45,10 +49,11 @@ const FoodSlicer: React.FunctionComponent<Props> = ({onSlice}) => {
 
   return (
     <GestureDetector gesture={gesture}>
-      <Animated.View
+      <AnimatedPressable
+        onPress={handleSliceFood}
         style={{
-          height: size(150),
-          width: size(150),
+          height: SLICER_SIZE,
+          width: SLICER_SIZE,
           position: 'absolute',
           alignSelf: 'center',
           justifyContent: 'center',
@@ -75,7 +80,7 @@ const FoodSlicer: React.FunctionComponent<Props> = ({onSlice}) => {
             />
           </MotiView>
         )}
-      </Animated.View>
+      </AnimatedPressable>
     </GestureDetector>
   );
 };

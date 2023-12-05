@@ -6,6 +6,7 @@ import {openGameMenuAtom} from '../../state';
 import {useSetAtom} from 'jotai';
 import {MenuLayout} from '../../layout';
 import SoundPlayer from 'react-native-sound-player';
+import {size} from '../../helper';
 
 const MenuBoard: React.FunctionComponent = () => {
   const BOARD_HEIGHT = screenHeight * 0.15;
@@ -21,6 +22,8 @@ const MenuBoard: React.FunctionComponent = () => {
     } catch (error) {}
   }, []);
 
+  const CLOSE_SVG_SIZE = size(80);
+
   return (
     <View>
       <RightBoardTemplate height={BOARD_HEIGHT} width={BOARD_WIDTH} />
@@ -30,10 +33,13 @@ const MenuBoard: React.FunctionComponent = () => {
         onPress={handleOpenMenu}
         style={{
           position: 'absolute',
-          marginTop: -screenHeight * 0.015,
-          borderRadius: 100,
+          marginTop: -screenHeight * 0.005,
+          justifyContent: 'center',
+          left: 0,
+          height: BOARD_HEIGHT,
+          width: BOARD_WIDTH,
         }}>
-        <CloseSvg />
+        <CloseSvg width={CLOSE_SVG_SIZE} height={CLOSE_SVG_SIZE} />
       </TouchableOpacity>
 
       <MenuLayout />

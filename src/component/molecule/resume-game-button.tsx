@@ -15,7 +15,7 @@ const ResumeGameButton: React.FunctionComponent = () => {
   const handleResumeGame = useCallback(() => {
     setOpenGameMenu(false);
 
-    SoundPlayer.playSoundFile('click2', 'mpg');
+    SoundPlayer.playSoundFile('resume', 'mp3');
   }, []);
 
   return (

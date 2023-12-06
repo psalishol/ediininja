@@ -2,46 +2,72 @@ import {View} from 'react-native';
 import React, {useState, useCallback, useEffect} from 'react';
 import {foodLibrary} from '../../consts';
 import {randomID, randomInt} from '../../helper';
-import {FoodBuilder, FoodItems} from '../../types';
+import {FoodBuilder} from '../../types';
 import {Food} from '../molecule';
 import {gameOverAtom, openGameMenuAtom} from '../../state';
 import {useAtomValue} from 'jotai';
 
 const FoodRenderer: React.FunctionComponent = () => {
   const [foods, setFood] = useState<FoodBuilder[]>([]);
-
-  // the food normally is added at interval of 5secs at the start of the game
-  const INITIAL_INTERVAL_DURATION = 5000;
-
-  const [intervalDuration, setIntervalDuration] = useState<number>(
-    INITIAL_INTERVAL_DURATION,
-  );
+  const [timer, setTimer] = useState<number>(0);
 
   const gameOver = useAtomValue(gameOverAtom);
   const openedGameMenu = useAtomValue(openGameMenuAtom);
 
-  useEffect(() => {
-    const INTERVAL_AFTER_ONE_MINUTE = 4000;
-    const INTERVAL_AFTER_TWO_MINUTE = 2500;
-    setTimeout(() => {
-      // decrease the interval to 4secs after 1 minsof playing
-      setIntervalDuration(INTERVAL_AFTER_ONE_MINUTE);
-      setTimeout(() => {
-        // decrease the interval to 2.5secs after 2 mins of playing
-        setIntervalDuration(INTERVAL_AFTER_TWO_MINUTE);
-      }, 120000);
-    }, 60000);
-  }, []);
-
+  // This is the timer effect. what it does is only to increment the timer.
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
 
+    const gamePaused = gameOver || openedGameMenu;
+
+    if (gamePaused) {
+      if (interval) {
+        clearInterval(interval);
+      }
+    } else {
+      interval = setInterval(() => {
+        setTimer(prev => prev++);
+      }, 1000);
+    }
+
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, [gameOver, openedGameMenu]);
+
+  useEffect(() => {
     const totalFoodItemCount = foodLibrary.length;
+
+    const getFoodCount = (time: number): number => {
+      if (time >= 0 && time <= 10) {
+        return 1;
+      } else if (time >= 11 && time <= 20) {
+        return 3;
+      } else if (time >= 21 && time <= 30) {
+        return 4;
+      } else if (time >= 31 && time <= 40) {
+        return 5;
+      } else if (time >= 41 && time <= 50) {
+        return 6;
+      } else if (time >= 51 && time <= 60) {
+        return 7;
+      } else if (time >= 61 && time <= 70) {
+        return 8;
+      } else if (time >= 71 && time <= 80) {
+        return 9;
+      } else if (time >= 81 && time <= 90) {
+        return 10;
+      }
+      return 10;
+    };
 
     const addFoodBatch = (): FoodBuilder[] => {
       let foodBuilder: FoodBuilder[] = [];
 
-      const foodCount = randomInt(4);
+      const foodCount = getFoodCount(timer);
+
       for (let i = 0; i < foodCount; i++) {
         const randFood: FoodBuilder = {
           ...foodLibrary[randomInt(totalFoodItemCount)],
@@ -56,22 +82,14 @@ const FoodRenderer: React.FunctionComponent = () => {
     const gamePaused = gameOver || openedGameMenu;
 
     if (gamePaused) {
-      if (interval) {
-        clearInterval(interval);
-      }
     } else {
-      interval = setInterval(() => {
-        const builtFood = addFoodBatch();
-        setFood(prev => [...prev, ...builtFood]);
-      }, intervalDuration);
-    }
-
-    return () => {
-      if (interval) {
-        clearInterval(interval);
+      // check if the food on screen is depleted. if it is, generate new food batch.
+      if (foods.length < 1) {
+        const newFoodBatch = addFoodBatch();
+        setFood(prev => [...prev, ...newFoodBatch]);
       }
-    };
-  }, [gameOver, openedGameMenu, intervalDuration]);
+    }
+  }, [gameOver, openedGameMenu, timer, foods]);
 
   const removeFood = useCallback((id: string) => {
     setFood(prev => prev.filter(f => f.id !== id));

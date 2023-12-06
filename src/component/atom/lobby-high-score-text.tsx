@@ -18,8 +18,8 @@ const LobbyHighScoreText: React.FunctionComponent = () => {
         color: 'white',
         fontSize: size(20),
         fontWeight: '600',
-        marginLeft: screenWidth * 0.05,
-        marginTop: screenHeight * 0.15,
+        marginLeft: screenWidth * 0.07,
+        marginTop: screenHeight * 0.1,
       }}>
       high score: {highScore}{' '}
     </Text>

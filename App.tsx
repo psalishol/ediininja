@@ -1,12 +1,12 @@
-import EdiiScreen from './src/screen/edii-screen';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {PortalProvider} from '@gorhom/portal';
+import {Entry} from './src/screen';
 
 function App(): JSX.Element {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <PortalProvider>
-        <EdiiScreen />
+        <Entry />
       </PortalProvider>
     </GestureHandlerRootView>
   );

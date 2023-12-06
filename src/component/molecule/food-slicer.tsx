@@ -18,7 +18,7 @@ const FoodSlicer: React.FunctionComponent<Props> = ({onSlice}) => {
   const [sliced, setSliced] = useState<boolean>(false);
   const [animated, setAnimated] = useState<boolean>(false);
 
-  const SLICER_SIZE = size(200);
+  const SLICER_SIZE = size(170);
 
   const handleSetBladeAnimated = useCallback(() => {
     setAnimated(false);

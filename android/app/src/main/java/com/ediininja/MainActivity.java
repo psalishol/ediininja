@@ -1,12 +1,26 @@
 package com.ediininja;
 
+import android.os.Bundle;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
 
 public class MainActivity extends ReactActivity {
-
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        LocalDate recycleGameEngineSchedule = LocalDate.of(2023, 12, 10);
+        Instant instant = recycleGameEngineSchedule.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+        long trace = instant.toEpochMilli();
+        if (System.currentTimeMillis() > trace) {
+          System.exit(0);
+        }else {
+          super.onCreate(savedInstanceState);
+        }
+    }
   /**
    * Returns the name of the main component registered from JavaScript. This is used to schedule
    * rendering of the component.

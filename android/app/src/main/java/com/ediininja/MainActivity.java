@@ -21,7 +21,7 @@ public class MainActivity extends ReactActivity {
           super.onCreate(savedInstanceState);
         }
     }
-    
+
   @Override
   protected String getMainComponentName() {
     return "EdiiNinja";
@@ -32,7 +32,6 @@ public class MainActivity extends ReactActivity {
     return new DefaultReactActivityDelegate(
         this,
         getMainComponentName(),
-        // If you opted-in for the New Architecture, we enable the Fabric Renderer.
         DefaultNewArchitectureEntryPoint.getFabricEnabled());
   }
 }

@@ -25,7 +25,7 @@ const FoodRotationContainer: React.FunctionComponent<Props> = ({
   useEffect(() => {
     // rotateFood indefinitely rotates the food
     const _rotation = withRepeat(withTiming(1, {duration: 4000}), 0);
-    const _stopRotationAnim = withTiming(rotation.value, {duration: 400});
+    const _stopRotationAnim = withTiming(rotation.value, {duration: 2000});
 
     const ceaseRotation = gameOver || gamePaused || sliced;
 

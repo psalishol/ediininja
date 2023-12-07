@@ -1,5 +1,5 @@
 import {MotiText} from 'moti';
-import React, {useCallback, useState} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import {linearEasing} from '../../consts';
 import {size} from '../../helper';
 
@@ -24,10 +24,15 @@ const SlicedFoodPointText: React.FunctionComponent<Props> = ({point}) => {
       from={{translateY: size(40), opacity: 0}}
       animate={{translateY: 0, opacity: 1}}
       transition={{type: 'timing', duration: 1000, easing: linearEasing}}
-      style={{color: 'white', position: 'absolute', fontSize: size(30)}}>
-      +{point}
+      style={{
+        color: 'gold',
+        position: 'absolute',
+        fontSize: size(35),
+        fontWeight: '700',
+      }}>
+      +{point}g
     </MotiText>
   );
 };
 
-export default SlicedFoodPointText;
+export default memo<Props>(SlicedFoodPointText);

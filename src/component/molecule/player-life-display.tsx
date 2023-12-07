@@ -11,41 +11,9 @@ const PlayerLifeDisplay: React.FunctionComponent = () => {
 
   const LIFE_DIMENSION = size(30);
 
-  switch (playerLife) {
-    case '1':
-      return (
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            position: 'absolute',
-            justifyContent: 'space-around',
-            width: screenWidth * 0.11,
-            height: screenHeight * 0.17,
-            right: screenWidth * 0.04,
-          }}>
-          <RedXTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
-          <RedXTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
-          <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
-        </View>
-      );
-    case '2':
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          position: 'absolute',
-          justifyContent: 'space-around',
-          width: screenWidth * 0.11,
-          height: screenHeight * 0.17,
-          right: screenWidth * 0.04,
-        }}>
-        <RedXTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
-        <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
-        <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
-      </View>;
-    default:
-      return (
+  return (
+    <>
+      {(playerLife === 6 || playerLife === 5) && (
         <View
           style={{
             flexDirection: 'row',
@@ -60,8 +28,58 @@ const PlayerLifeDisplay: React.FunctionComponent = () => {
           <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
           <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
         </View>
-      );
-  }
+      )}
+      {(playerLife === 4 || playerLife === 3) && (
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            position: 'absolute',
+            justifyContent: 'space-around',
+            width: screenWidth * 0.11,
+            height: screenHeight * 0.17,
+            right: screenWidth * 0.04,
+          }}>
+          <RedXTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
+          <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
+          <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
+        </View>
+      )}
+
+      {(playerLife === 2 || playerLife === 1) && (
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            position: 'absolute',
+            justifyContent: 'space-around',
+            width: screenWidth * 0.11,
+            height: screenHeight * 0.17,
+            right: screenWidth * 0.04,
+          }}>
+          <RedXTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
+          <RedXTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
+          <XTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
+        </View>
+      )}
+      {playerLife === 0 && (
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            position: 'absolute',
+            justifyContent: 'space-around',
+            width: screenWidth * 0.11,
+            height: screenHeight * 0.17,
+            right: screenWidth * 0.04,
+          }}>
+          <RedXTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
+          <RedXTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
+          <RedXTemplate height={LIFE_DIMENSION} width={LIFE_DIMENSION} />
+        </View>
+      )}
+    </>
+  );
 };
 
 export default PlayerLifeDisplay;

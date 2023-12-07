@@ -15,17 +15,20 @@ export const highScoreAtom = atom<number>(0);
 
 export const currentScoreAtom = atom<number>(0);
 
-export const playerLifeAtom = atom<PlayerLife>('3');
+export const playerLifeAtom = atom<number>(6);
 
 export const openGameMenuAtom = atom<boolean>(false);
 
 export const lastSlicedFoodItemAtom = atom<FoodItems | undefined>(undefined);
 
+export const lastTranslatedIDAtom = atom<string | undefined>(undefined);
+
 export const resetGameAtom = atom(null, (_get, set) => {
   set(openGameMenuAtom, false);
   set(gameOverAtom, false);
   set(startGameAtom, false);
+  set(lastTranslatedIDAtom, undefined);
   set(currentScoreAtom, 0);
-  set(playerLifeAtom, '3');
+  set(playerLifeAtom, 6);
   set(lastSlicedFoodItemAtom, undefined);
 });

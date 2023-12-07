@@ -15,7 +15,7 @@ const GameOverLayout: React.FunctionComponent = () => {
   const highScore = useAtomValue(highScoreAtom);
   const currentScore = useAtomValue(currentScoreAtom);
 
-  const newHighScoreRecord = currentScore >= highScore;
+  const newHighScoreRecord = currentScore >= highScore && currentScore > 0;
 
   return (
     <Liftview

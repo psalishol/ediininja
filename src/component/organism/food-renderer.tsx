@@ -10,6 +10,7 @@ import {useAtomValue} from 'jotai';
 const FoodRenderer: React.FunctionComponent = () => {
   const [foods, setFood] = useState<FoodBuilder[]>([]);
   const [timer, setTimer] = useState<number>(0);
+  const [lastRemovedFoodID, setLastRemovedFoodID] = useState<string>();
 
   const gameOver = useAtomValue(gameOverAtom);
   const openedGameMenu = useAtomValue(openGameMenuAtom);
@@ -26,7 +27,7 @@ const FoodRenderer: React.FunctionComponent = () => {
       }
     } else {
       interval = setInterval(() => {
-        setTimer(prev => prev++);
+        setTimer(prev => prev + 1);
       }, 1000);
     }
 
@@ -35,7 +36,7 @@ const FoodRenderer: React.FunctionComponent = () => {
         clearInterval(interval);
       }
     };
-  }, [gameOver, openedGameMenu]);
+  }, [gameOver, openedGameMenu, timer]);
 
   useEffect(() => {
     const totalFoodItemCount = foodLibrary.length;
@@ -104,7 +105,7 @@ const FoodRenderer: React.FunctionComponent = () => {
         bottom: 0,
         left: 0,
       }}>
-      {foods.map((foodItem, i) => {
+      {foods.map(foodItem => {
         return (
           <Food
             key={foodItem.id}

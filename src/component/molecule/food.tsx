@@ -41,6 +41,7 @@ const Food: React.FunctionComponent<Props> = ({food, onFinishTranslation}) => {
 
   return (
     <FoodTranslationContainer
+      id={id}
       point={point}
       onFinishAnimation={() => onFinishTranslation(id)}
       onSlice={handleSliceFood}>

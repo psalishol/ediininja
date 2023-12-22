@@ -1,5 +1,6 @@
 
 
+<img style="width: 100%; height: 320px;" src="https://github.com/psalishol/ediininja/assets/85138073/73a6ffd0-2a2c-4570-98e8-9a5b578ffce4" alt="cover photo" >
 
 # Ediininja: Slice your way to calorie awareness!
 
@@ -10,9 +11,6 @@
 - **Progressive difficulty:** The game starts with just one food item on screen, gradually increasing to 10 items by the 90-second mark. This dynamic pace keeps players challenged and engaged.
 - **Projectile motion:** Foods follow a realistic projectile trajectory as they rise and fall, adding an extra layer of complexity and fun to the slicing action.
 - **Calorie awareness:** Each sliced food displays its calorie count, allowing children to learn about the nutritional value of their choices in a playful way.
-
-  
-https://github.com/psalishol/ediininja/assets/85138073/fe5b7817-39a6-483d-b334-46fdd417fb62
 
 ## Technology stack:
 

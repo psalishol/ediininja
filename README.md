@@ -12,7 +12,8 @@
 ## Ediininja🥷🏿⚔️
 
 **Ediininja** is a fun and educational mobile game inspired by Fruit Ninja, designed to help children understand the calorie content of different foods. By slicing delicious fruits, veggies, and treats, kids learn about healthy choices while enjoying an engaging gameplay experience.
-
+> _"Education is the most powerful weapon which you can use to change the world."_  
+\- Nelson Rolihlahla Mandela
 ### 🧑‍💻 How it works:
 
 - **Progressive difficulty:** The game starts with just one food item on screen, gradually increasing to 10 items by the 90-second mark. This dynamic pace keeps players challenged and engaged.

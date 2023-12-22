@@ -21,11 +21,10 @@
 - **Calorie awareness:** Each sliced food displays its calorie count, allowing children to learn about the nutritional value of their choices in a playful way.
 
 ### :ninja: Technologies
-- React
-- React Native
 - Typescript
-- React Native Game Engine
-- Matter.js
+- [React Native](https://reactnative.dev/)
+- [React Native Game Engine](https://github.com/bberak/react-native-game-engine)
+- [Matter.js](https://brm.io/matter-js/docs/)
 
 
 ### :coffee: Credits

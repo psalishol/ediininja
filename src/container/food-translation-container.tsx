@@ -2,8 +2,13 @@ import React, {useState, useCallback, memo, useEffect} from 'react';
 import {FoodSlicer} from '../component/molecule';
 import {screenHeight, screenWidth} from '../consts';
 import {randomInt} from '../helper';
-import {gameOverAtom, openGameMenuAtom, playerLifeAtom} from '../state';
-import {useAtom, useAtomValue} from 'jotai';
+import {
+  gameOverAtom,
+  lastTranslatedIDAtom,
+  openGameMenuAtom,
+  playerLifeAtom,
+} from '../state';
+import {useAtom, useAtomValue, useSetAtom} from 'jotai';
 import Animated, {
   Easing,
   runOnJS,
@@ -12,13 +17,13 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {SlicedFoodPointText} from '../component/atom';
-import SoundPlayer from 'react-native-sound-player';
 
 interface Props {
   children: React.ReactNode;
   onSlice: () => void;
   onFinishAnimation: () => void;
   point: number;
+  id: string;
 }
 
 const FoodTranslationContainer: React.FunctionComponent<Props> = ({
@@ -26,21 +31,24 @@ const FoodTranslationContainer: React.FunctionComponent<Props> = ({
   onSlice,
   onFinishAnimation,
   point,
+  id,
 }) => {
   const [animatedUp, setAnimatedUp] = useState<boolean>(false);
   const [sliced, setSliced] = useState<boolean>(false);
+
+  const [lastUpdatedID, setLastUpdatedID] = useAtom(lastTranslatedIDAtom);
 
   const [gameOver, setGameOver] = useAtom(gameOverAtom);
   const gamePaused = useAtomValue(openGameMenuAtom);
 
   const initialPosition = randomInt(screenWidth * 0.7);
-  const midPosition = initialPosition + initialPosition * 0.1;
-  const finalPosition = initialPosition + initialPosition * 0.2;
+  const midPosition = initialPosition + initialPosition * 0.01;
+  const finalPosition = initialPosition + initialPosition * 0.02;
 
   const translationX = useSharedValue(initialPosition);
   const translationY = useSharedValue(1);
 
-  const [playerLife, setPlayerLife] = useAtom(playerLifeAtom);
+  const setPlayerLife = useSetAtom(playerLifeAtom);
 
   const FOOD_TRANSLATION_DURATION = randomInt(4000, 3000); // randomDuration between 2secs and 4secs
   const SLICE_FALL_DURATION = 2000;
@@ -55,35 +63,22 @@ const FoodTranslationContainer: React.FunctionComponent<Props> = ({
   };
 
   // onFinishedTranslation sets the player life in the case player misses
-  // any food. and also set the game over if the life is depleted.
-  const onFinishedTranslation = async () => {
+  // any food.
+  const onFinishedTranslation = useCallback(async () => {
     try {
       if (!sliced) {
-        if (playerLife === '0') {
-          console.log('game over ');
-          setPlayerLife('0');
-          setGameOver(true);
-          SoundPlayer.playSoundFile('gameover2', 'mp3');
-        } else {
-          setPlayerLife(prev => {
-            if (prev === '3') {
-              return '2';
-            } else if (prev === '2') {
-              return '1';
-            }
-            return '0';
-          });
-        }
+        setPlayerLife(prev => prev - 1);
       }
     } catch (error) {
       console.log('some error occured', error);
     }
-  };
+  }, [sliced]);
 
   // handleFinishAnimatingUp is the callback ran whenever the animation finishes.
   // This callback is used in two animation controller -> sliced animation and the normal translate animation.
   const handleFinishAnimatingUp = (_fromSliceAnim: boolean) => {
     'worklet';
+
     // checks if the animation is from the slice anim. if yes it only runs
     // the on finish callback which removes the food from the foods array
     if (_fromSliceAnim) {
@@ -142,14 +137,14 @@ const FoodTranslationContainer: React.FunctionComponent<Props> = ({
 
     if (sliced) {
       translationY.value = _slicedTranslateYAnim;
-      translationX.value = _slicedTranslateXAnim;
+      // translationX.value = _slicedTranslateXAnim;
     } else {
       if (!pauseTranslation) {
         translationY.value = translateY;
-        translationX.value = translateX;
+        // translationX.value = translateX;
       } else {
         translationY.value = _stopTranslateYAnim;
-        translationX.value = _stopTranslateXAnim;
+        // translationX.value = _stopTranslateXAnim;
       }
     }
   }, [animatedUp, gameOver, gamePaused, finalPosition, midPosition, sliced]);

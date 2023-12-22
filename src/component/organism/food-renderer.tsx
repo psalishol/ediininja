@@ -4,16 +4,25 @@ import {foodLibrary} from '../../consts';
 import {randomID, randomInt} from '../../helper';
 import {FoodBuilder} from '../../types';
 import {Food} from '../molecule';
-import {gameOverAtom, openGameMenuAtom} from '../../state';
-import {useAtomValue} from 'jotai';
+import {gameOverAtom, openGameMenuAtom, playerLifeAtom} from '../../state';
+import {useAtom, useAtomValue, useSetAtom} from 'jotai';
+import SoundPlayer from 'react-native-sound-player';
 
 const FoodRenderer: React.FunctionComponent = () => {
   const [foods, setFood] = useState<FoodBuilder[]>([]);
   const [timer, setTimer] = useState<number>(0);
-  const [lastRemovedFoodID, setLastRemovedFoodID] = useState<string>();
-
-  const gameOver = useAtomValue(gameOverAtom);
+  const [gameOver, setGameOver] = useAtom(gameOverAtom);
   const openedGameMenu = useAtomValue(openGameMenuAtom);
+
+  const playerLife = useAtomValue(playerLifeAtom);
+
+  // Sets the game over if the player life is depleted.
+  useEffect(() => {
+    if (playerLife === 0 || playerLife < 1) {
+      setGameOver(true);
+      SoundPlayer.playSoundFile('gameover2', 'mp3');
+    }
+  }, [playerLife]);
 
   // This is the timer effect. what it does is only to increment the timer.
   useEffect(() => {

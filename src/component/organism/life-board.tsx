@@ -33,7 +33,7 @@ const LifeBoard: React.FunctionComponent = () => {
             fontSize: size(20),
             fontWeight: '800',
           }}>
-          {Math.floor(life / 2)}
+          {Math.round(life / 2)}
         </Text>
       </View>
     </View>

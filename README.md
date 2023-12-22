@@ -2,7 +2,7 @@
 
 <img style="width: 100%; height: 320px;" src="https://github.com/psalishol/ediininja/assets/85138073/73a6ffd0-2a2c-4570-98e8-9a5b578ffce4" alt="cover photo" >
 
-# Ediininja: Slice your way to calorie awareness!
+# Ediininja: Slice your way to calorie awareness!🥷🏿⚔️
 
 **Ediininja** is a fun and educational mobile game inspired by Fruit Ninja, designed to help children understand the calorie content of different foods. By slicing delicious fruits, veggies, and treats, kids learn about healthy choices while enjoying an engaging gameplay experience.
 
